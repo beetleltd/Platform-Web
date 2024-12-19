@@ -1,29 +1,37 @@
 import { lazy, Suspense, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
+import FullPageLoader from "@/components/loaders/FullPageLoader";
 
-const Business = lazy(() => import("../pages/business/Business"));
-const BusinessCart = lazy(() => import("../pages/business/BusinessCart"));
+// const Business = lazy(() => import("../pages/business/Business"));
+// const BusinessCart = lazy(() => import("../pages/business/BusinessCart"));
 const Reseller = lazy(() => import("../pages/reseller/Reseller"));
 const ResellerCart = lazy(() => import("../pages/reseller/ResellerCart"));
+const ResellerCheckout = lazy(
+  () => import("../pages/reseller/ResellerChekout")
+);
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 const router = createBrowserRouter([
+  // {
+  //   path: "/b/:id",
+  //   element: <Business />,
+  // },
+  // {
+  //   path: "/b/:id/cart",
+  //   element: <BusinessCart />,
+  // },
   {
-    path: "/b/:id",
-    element: <Business />,
-  },
-  {
-    path: "/b/:id/cart",
-    element: <BusinessCart />,
-  },
-  {
-    path: "/r/:id",
+    path: "/r/:storeName",
     element: <Reseller />,
   },
   {
-    path: "/r/:id/cart",
+    path: "/r/cart",
     element: <ResellerCart />,
+  },
+  {
+    path: "/r/checkout",
+    element: <ResellerCheckout />,
   },
   { path: "*", element: <NotFound /> },
 ]);
@@ -44,7 +52,7 @@ const ThemeSetter = () => {
 
 export default function StoreFrontRouter() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<FullPageLoader />}>
       <ThemeSetter />
       <RouterProvider router={router} />
     </Suspense>

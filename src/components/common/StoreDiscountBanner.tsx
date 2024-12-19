@@ -7,19 +7,18 @@ type Props = {
 const StoreDiscountBanner = ({ theme }: Props) => {
   return (
     <div
-      className={`flex items-center w-full py-3 ${
+      className={` py-3 ${
         theme === "business" ? "bg-business-dark" : "bg-reseller-dark"
       }`}
     >
       <Container>
-        <div className="w-full grid grid-cols-3">
-          <div></div>
-          <div>
+        <div className="w-full flex items-center justify-between">
+          <div className="flex-1">
             <p className="text-white text-sm text-center">
               Get 10% off on all products
             </p>
           </div>
-          <div className="flex justify-end">
+          <div className="flex text-right">
             <BiX className="text-2xl text-white cursor-pointer" />
           </div>
         </div>

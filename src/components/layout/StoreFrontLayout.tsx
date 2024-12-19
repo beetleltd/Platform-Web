@@ -14,7 +14,9 @@ const StorefrontLayout = ({ children }: TStorefrontLayout) => {
     <div>
       <StoreDiscountBanner theme={theme} />
       <StoreHeader theme={theme} />
-      <Container>{children}</Container>
+      <Container>
+        <div className="h-dvh">{children}</div>
+      </Container>
       <StoreFooter />
     </div>
   );

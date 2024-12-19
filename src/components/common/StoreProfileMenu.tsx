@@ -1,14 +1,16 @@
+import { useStoreData } from "@/store/storeData";
 import { Menu } from "@headlessui/react";
-import { FiChevronDown, FiCopy, FiMail, FiPhone } from "react-icons/fi";
-import { useTheme } from "../../contexts/ThemeContext";
 import { BsPatchCheckFill } from "react-icons/bs";
-import Button from "../shared/Button";
+import { FiChevronDown, FiCopy, FiMail, FiPhone } from "react-icons/fi";
 import { MdOutlineOpenInNew } from "react-icons/md";
+import { useTheme } from "../../contexts/ThemeContext";
+import Button from "../shared/Button";
 import StoreTag from "./StoreTag";
 
 const StoreProfileMenu = () => {
   const { theme } = useTheme();
   const businessType = theme ? "Business" : "Reseller";
+  const { store } = useStoreData();
   return (
     <div className="relative">
       <Menu as="div" className="relative inline-block text-left">
@@ -16,8 +18,11 @@ const StoreProfileMenu = () => {
           <div className="flex gap-x-3 items-center">
             <div className="relative">
               <img
-                src="https://via.placeholder.com/50" // Placeholder for the avatar image
-                alt="Avatar"
+                src={
+                  store?.metadata?.picture?.url ||
+                  "https://via.placeholder.com/50"
+                } // Placeholder for the store logo
+                alt={store?.name}
                 className="w-14 h-14 rounded-full"
               />
               <div className="absolute -top-1 -right-1 ">
@@ -35,12 +40,12 @@ const StoreProfileMenu = () => {
             <div className="text-justify">
               <p className="flex items-center gap-x-2">
                 <span className="font-bold text-xl text-black">
-                  HeyFan Store
+                  {store?.name}
                 </span>
                 <FiChevronDown />
               </p>
-              <p className="text-xs text-gray-700 font-medium">
-                {businessType}
+              <p className="text-xs text-gray-700 font-medium capitalize">
+                {store?.account_type}
               </p>
             </div>
           </div>
@@ -57,7 +62,7 @@ const StoreProfileMenu = () => {
                 className="w-12 h-12 rounded-full"
               />
               <div>
-                <h3 className="font-semibold text-gray-900">HeyFan Store</h3>
+                <h3 className="font-semibold text-gray-900">{store?.name}</h3>
                 <StoreTag />
               </div>
             </div>
@@ -67,11 +72,15 @@ const StoreProfileMenu = () => {
               <div className="flex items-center justify-between text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <FiPhone className="text-gray-500" />
-                  <span>08123456789</span>
+                  <span>{store?.phone_number || "No Phone Number"}</span>
                 </div>
                 <button
-                  className="text-purple-600 hover:text-purple-800 transition"
-                  onClick={() => navigator.clipboard.writeText("08123456789")}
+                  className="text-reseller-primary hover:text-reseller-primary-dark transition"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      store?.phone_number || "No Phone Number"
+                    )
+                  }
                 >
                   <FiCopy />
                 </button>
@@ -79,12 +88,12 @@ const StoreProfileMenu = () => {
               <div className="flex items-center justify-between text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <FiMail className="text-gray-500" />
-                  <span>heyfanstore@gmail.com</span>
+                  <span>{store?.email}</span>
                 </div>
                 <button
-                  className="text-purple-600 hover:text-purple-800 transition"
+                  className="text-reseller-primary hover:text-reseller-primary-dark transition"
                   onClick={() =>
-                    navigator.clipboard.writeText("heyfanstore@gmail.com")
+                    navigator.clipboard.writeText(store?.email || "No Email")
                   }
                 >
                   <FiCopy />

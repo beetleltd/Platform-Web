@@ -2,7 +2,7 @@ import { cva } from "class-variance-authority";
 
 // Define the Button styles
 export const buttonStyles = cva(
-  "inline-flex items-center justify-center font-medium rounded transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2",
+  "shadow-lg w-full inline-flex items-center justify-center font-medium rounded transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2",
   {
     variants: {
       size: {
@@ -12,7 +12,7 @@ export const buttonStyles = cva(
       },
       variant: {
         solid: "",
-        outline: "border",
+        outline: "border bg-transparent ",
         ghost: "bg-transparent",
       },
       theme: {
