@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import { useCartStore } from "../../store/cart";
 import Button from "../../components/shared/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ResellerCart: React.FC = () => {
   const {
@@ -26,6 +26,8 @@ const ResellerCart: React.FC = () => {
       }
     }
   }, [clearCart]);
+
+  const { storeName } = useParams();
 
   return (
     <StorefrontLayout>
@@ -107,7 +109,7 @@ const ResellerCart: React.FC = () => {
 
             <Button
               className="w-full"
-              onClick={() => navigate("/r/checkout")}
+              onClick={() => navigate(`/r/${storeName}/checkout`)}
               disabled={products?.length === 0}
             >
               Checkout

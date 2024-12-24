@@ -23,12 +23,12 @@ const ProductDetails = ({
   const availableQuantity = product.products[0]?.units;
 
   return (
-    <div className="p-2 block md:flex md:gap-x-5 space-y-5 md:space-y-0">
-      <div className="w-full md:w-[60%]">
+    <div className=" block md:flex md:gap-x-5 space-y-5 md:space-y-0">
+      <div className="w-full md:w-[60%]  max-h-fit min-h-fit md:min-h-[500px]">
         <img
           src={product.medias[0]?.url || product.products[0]?.medias[0]?.url}
           alt={product.products[0]?.name}
-          className="w-full"
+          className="w-full h-full"
         />
       </div>
       <div className="text-gray-700 space-y-3 w-full md:w-[40%]">
@@ -37,7 +37,7 @@ const ProductDetails = ({
           <p className="text-3xl">
             <PriceFormatter price={product.marked_price} />
           </p>
-          <Ratings rating={product.rating} />
+          {product.rating > 0 && <Ratings rating={product.rating} />}
         </div>
 
         <div>

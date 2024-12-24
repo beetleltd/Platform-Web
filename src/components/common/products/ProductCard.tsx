@@ -26,67 +26,62 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const availableQuantity = product.products[0]?.units;
 
   return (
-    <>
-      <div className="space-y-3 p-2 hover:shadow-gray-100 hover:shadow-md transition-all duration-150 cursor-pointer ease-in-out">
-        <div
-          onClick={() => {
-            handleOpen();
-          }}
-        >
+    <div className="space-y-3 p-2 hover:shadow-gray-100 hover:shadow-md transition-all duration-150 cursor-pointer ease-in-out">
+      <div onClick={handleOpen}>
+        <div className="w-full h-64 overflow-hidden rounded">
           <img
             src={product.medias[0]?.url || product.products[0]?.medias[0]?.url}
             alt={product.products[0]?.name}
-            className="w-full h-50 object-cover rounded"
+            className="w-full h-full object-cover"
           />
-          <div className="space-y-1 text-gray-700">
-            <h2 className="text-sm font-semibold mt-2 truncate">
-              {product.products[0]?.name}
-            </h2>
-            <p className="text-primary font-medium text-lg md:text-xl">
-              <PriceFormatter
-                price={product?.marked_price}
-                currency={product?.currency}
-              />
-            </p>
-            <Ratings rating={product.rating} />
-          </div>
         </div>
-        {isInCart ? (
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => {
-                decreaseQuantity(product.id);
-              }}
-              className="px-4 shadow-lg py-2 bg-reseller-primary text-white rounded"
-            >
-              -
-            </button>
-            <span>{quantity}</span>
-            <button
-              onClick={() => increaseQuantity(product.id)}
-              className={`px-4 shadow-lg py-2 bg-reseller-primary text-white rounded ${
-                product?.quantity >= availableQuantity
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }`}
-              disabled={quantity >= availableQuantity}
-            >
-              +
-            </button>
-          </div>
-        ) : (
-          <Button
-            onClick={() => handleAddToCart()}
-            className="w-full text-white  hover:bg-primary-dark transition"
-          >
-            <span className="inline-flex items-center justify-center gap-x-2 text-sm md:text-base">
-              <MdOutlineAddShoppingCart />
-              Add to Cart
-            </span>
-          </Button>
-        )}
+        <div className="space-y-1 text-gray-700">
+          <h2 className="text-sm font-semibold mt-2 truncate">
+            {product.products[0]?.name}
+          </h2>
+          <p className="text-primary font-medium text-lg md:text-xl">
+            <PriceFormatter
+              price={product?.marked_price}
+              currency={product?.currency}
+            />
+          </p>
+          {product?.rating <= 0 ? (
+            <div className="py-3"></div>
+          ) : (
+            <Ratings rating={product.rating} />
+          )}
+        </div>
       </div>
-    </>
+      {isInCart ? (
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => decreaseQuantity(product.id)}
+            className="px-2 py-1 border border-gray-300 rounded"
+          >
+            -
+          </button>
+          <span>{quantity}</span>
+          <button
+            onClick={() => increaseQuantity(product.id)}
+            className={`px-2 py-1 border border-gray-300 rounded ${
+              quantity >= availableQuantity
+                ? "cursor-not-allowed opacity-50"
+                : ""
+            }`}
+            disabled={quantity >= availableQuantity}
+          >
+            +
+          </button>
+        </div>
+      ) : (
+        <Button
+          onClick={handleAddToCart}
+          className="w-full py-2 bg-primary text-white rounded"
+        >
+          Add to Cart
+        </Button>
+      )}
+    </div>
   );
 };
 

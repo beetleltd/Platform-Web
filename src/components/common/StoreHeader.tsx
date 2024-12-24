@@ -27,7 +27,7 @@ const StoreHeader = ({ theme }: TStoreHeader) => {
 
           <SearchInput />
 
-          <Link to={"/r/cart"} className="cursor-pointer">
+          <Link to={`/r/${store?.username}/cart`} className="cursor-pointer">
             <CartIcon />
           </Link>
         </div>
