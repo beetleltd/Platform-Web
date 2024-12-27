@@ -1,0 +1,52 @@
+name: Deploy to Azure
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+env:
+  DOCKER_REGISTRY: ${{ secrets.ACR_NAME }}.azurecr.io
+  CONTAINER_NAME: ${{ secrets.AZ_CONTAINER_NAME }}
+  API_URL: ${{ secrets.API_URL }}
+  STAGING_API_URL: ${{ secrets.STAGING_API_URL }}
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout to staging branch
+        uses: actions/checkout@v4
+
+      - name: Login to Azure Container Registry
+        run: |
+          docker login $DOCKER_REGISTRY \
+            -u ${{ secrets.ACR_USERNAME }} \
+            -p ${{ secrets.ACR_PASSWORD }}
+      
+      - name: Build Docker Image
+        run: |
+          docker build -t $DOCKER_REGISTRY/$CONTAINER_NAME:${{ github.sha }} \
+            -t $DOCKER_REGISTRY/$CONTAINER_NAME:latest \
+            --build-arg API_URL="$API_URL" \
+            --build-arg STAGING_API_URL="$STAGING_API_URL" \
+            .
+
+      - name: Push Docker Image
+        run: |
+          docker push $DOCKER_REGISTRY/$CONTAINER_NAME:${{ github.sha }}
+          docker push $DOCKER_REGISTRY/$CONTAINER_NAME:latest
+
+      - name: Login into Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZ_CREDENTIALS }}
+
+      - name: Deploy to Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          imageToDeploy: ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.AZ_CONTAINER_NAME }}:${{ github.sha }}
+          registryUrl: ${{ secrets.ACR_NAME }}.azurecr.io
+          registryUsername: ${{ secrets.ACR_USERNAME }}
+          registryPassword: ${{ secrets.ACR_PASSWORD }}
+          resourceGroup: ${{ secrets.AZ_RG }}
+          containerAppName: bloommain
