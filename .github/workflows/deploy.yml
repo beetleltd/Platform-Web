@@ -49,4 +49,6 @@ jobs:
           registryUsername: ${{ secrets.ACR_USERNAME }}
           registryPassword: ${{ secrets.ACR_PASSWORD }}
           resourceGroup: ${{ secrets.AZ_RG }}
+          ingress: external
+          targetPort: 8000
           containerAppName: bloommain
