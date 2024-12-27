@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const BASE_URL = import.meta.env.VITE_API_URL;
+const isDevelopment = process.env.NODE_ENV === "development";
+export const BASE_URL = isDevelopment ? import.meta.env.VITE_API_URL : "/api";
 
 console.log(BASE_URL);
 
