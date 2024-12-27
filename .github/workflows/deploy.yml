@@ -50,5 +50,5 @@ jobs:
           registryPassword: ${{ secrets.ACR_PASSWORD }}
           resourceGroup: ${{ secrets.AZ_RG }}
           ingress: external
-          targetPort: 8000
+          targetPort: 3000
           containerAppName: bloommain
