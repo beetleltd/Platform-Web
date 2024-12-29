@@ -49,6 +49,7 @@ jobs:
           registryUsername: ${{ secrets.ACR_USERNAME }}
           registryPassword: ${{ secrets.ACR_PASSWORD }}
           resourceGroup: ${{ secrets.AZ_RG }}
+          containerAppEnvironment: bloommain-web-ce
           ingress: external
-          targetPort: 8000
+          targetPort: 3000
           containerAppName: bloommain
