@@ -3,6 +3,7 @@ import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import { useCartStore } from "../../store/cart";
 import Button from "../../components/shared/Button";
 import { useNavigate, useParams } from "react-router-dom";
+import PriceFormatter from "@/components/common/products/PriceFormatter";
 
 const ResellerCart: React.FC = () => {
   const {
@@ -48,14 +49,14 @@ const ResellerCart: React.FC = () => {
                     <img
                       src={
                         product.medias[0]?.url ||
-                        product.products[0]?.medias[0]?.url
+                        product.backing_product?.medias[0]?.url
                       }
-                      alt={product.products[0]?.name}
+                      alt={product.backing_product?.name}
                       className="w-16 h-16 object-cover mr-4"
                     />
                     <div>
                       <p className="font-semibold">
-                        {product.products[0]?.name}
+                        {product.backing_product?.name}
                       </p>
                       <p className="text-gray-500">
                         ₦{product?.marked_price?.toLocaleString()}
@@ -75,11 +76,13 @@ const ResellerCart: React.FC = () => {
                     <button
                       onClick={() => increaseQuantity(product.id)}
                       className={`px-2 py-1 border border-gray-300 rounded ${
-                        product.quantity >= product.products[0]?.units
+                        product.quantity >= product.backing_product?.units
                           ? "cursor-not-allowed opacity-50"
                           : ""
                       }`}
-                      disabled={product.quantity >= product.products[0]?.units}
+                      disabled={
+                        product.quantity >= product.backing_product?.units
+                      }
                     >
                       +
                     </button>
@@ -102,7 +105,10 @@ const ResellerCart: React.FC = () => {
             <h2 className="text-xl font-bold mb-4">Summary</h2>
             <div className="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span>₦{subtotal()}</span>
+
+              <span>
+                <PriceFormatter price={subtotal()} />
+              </span>
             </div>
 
             <div className="w-full border border-dashed my-5"></div>

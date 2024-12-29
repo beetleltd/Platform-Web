@@ -6,7 +6,7 @@ export const useGetStore = (storeName: string | undefined) => {
     queryKey: ["getStore", storeName],
     queryFn: async () => {
       const response = await api.get(
-        `/public/search?key=account.reseller_username&value=${storeName}`
+        `/public/search?k=account.r_username&v=${storeName}`
       );
 
       return response.data.data;

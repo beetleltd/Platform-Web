@@ -29,7 +29,7 @@ export const useCartStore = create<CartState>()(
       incrementQuantity: (id) =>
         set((state) => ({
           cart: state.cart.map((item) =>
-            item.id === id && item.quantity < (item.products[0]?.units || 0)
+            item.id === id && item.quantity < (item.backing_product?.units || 0)
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),

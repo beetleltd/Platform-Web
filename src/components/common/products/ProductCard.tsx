@@ -23,21 +23,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
   isInCart,
   quantity,
 }) => {
-  const availableQuantity = product.products[0]?.units;
+  const availableQuantity = product.backing_product?.units;
 
   return (
     <div className="space-y-3 p-2 hover:shadow-gray-100 hover:shadow-md transition-all duration-150 cursor-pointer ease-in-out">
       <div onClick={handleOpen}>
         <div className="w-full h-64 overflow-hidden rounded">
           <img
-            src={product.medias[0]?.url || product.products[0]?.medias[0]?.url}
-            alt={product.products[0]?.name}
+            src={
+              product.medias[0]?.url || product.backing_product?.medias[0]?.url
+            }
+            alt={product.backing_product?.name}
             className="w-full h-full object-cover"
           />
         </div>
         <div className="space-y-1 text-gray-700">
           <h2 className="text-sm font-semibold mt-2 truncate">
-            {product.products[0]?.name}
+            {product.backing_product?.name}
           </h2>
           <p className="text-primary font-medium text-lg md:text-xl">
             <PriceFormatter

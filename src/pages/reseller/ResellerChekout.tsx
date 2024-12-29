@@ -77,6 +77,7 @@ const ResellerCheckout = () => {
       orders: products.map((product) => ({
         order_type_id: product.id,
         quantity: product.quantity,
+        order_entity_type_backed_id: product.backing_product?.business_id,
       })),
     };
 
@@ -110,7 +111,6 @@ const ResellerCheckout = () => {
       const confirmOrderData = {
         event: "order.confirmation",
         data: {
-          order_id: order[0]?.id,
           payment_provider: "paystack",
           payment_provider_transaction_reference_id: reference?.reference || "",
           payment_status: "success",
@@ -179,13 +179,13 @@ const ResellerCheckout = () => {
                   <img
                     src={
                       product.medias[0]?.url ||
-                      product.products[0]?.medias[0]?.url
+                      product.backing_product?.medias[0]?.url
                     }
-                    alt={product.products[0]?.name}
+                    alt={product.backing_product?.name}
                     className="w-20 h-10"
                   />
                   <div>
-                    <p>{product.products[0]?.name}</p>
+                    <p>{product.backing_product?.name}</p>
                     <p className="text-xs text-gray-500">
                       {product.quantity} items
                     </p>

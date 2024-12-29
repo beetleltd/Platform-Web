@@ -20,19 +20,21 @@ const ProductDetails = ({
   isInCart,
   quantity,
 }: ProductDetailsProps) => {
-  const availableQuantity = product.products[0]?.units;
+  const availableQuantity = product.backing_product?.units;
 
   return (
     <div className=" block md:flex md:gap-x-5 space-y-5 md:space-y-0">
       <div className="w-full md:w-[60%]  max-h-fit min-h-fit md:min-h-[500px]">
         <img
-          src={product.medias[0]?.url || product.products[0]?.medias[0]?.url}
-          alt={product.products[0]?.name}
+          src={
+            product.medias[0]?.url || product.backing_product?.medias[0]?.url
+          }
+          alt={product.backing_product?.name}
           className="w-full h-full"
         />
       </div>
       <div className="text-gray-700 space-y-3 w-full md:w-[40%]">
-        <p className="text-lg ">{product?.products[0]?.name}</p>
+        <p className="text-lg ">{product?.backing_product?.name}</p>
         <div>
           <p className="text-3xl">
             <PriceFormatter price={product.marked_price} />
