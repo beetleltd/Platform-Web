@@ -56,6 +56,9 @@ importers:
       react-paystack:
         specifier: ^6.0.0
         version: 6.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-range:
+        specifier: ^1.10.0
+        version: 1.10.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-responsive:
         specifier: ^10.0.0
         version: 10.0.0(react@18.3.1)
@@ -1642,6 +1645,12 @@ packages:
     peerDependencies:
       react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+
+  react-range@1.10.0:
+    resolution: {integrity: sha512-kDo0LiBUHIQIP8menx0UoxTnHr7UXBYpIYl/DR9jCaO1o29VwvCLpkP/qOTNQz5hkJadPg1uEM07XJcJ1XGoKw==}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
 
   react-refresh@0.14.2:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
@@ -3390,6 +3399,11 @@ snapshots:
     dependencies:
       '@paystack/inline-js': 2.22.1
       '@testing-library/dom': 10.4.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  react-range@1.10.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 

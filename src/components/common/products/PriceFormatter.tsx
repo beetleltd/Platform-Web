@@ -15,7 +15,7 @@ const PriceFormatter: React.FC<PriceFormatterProps> = ({
   });
 
   return (
-    <span className="text-gray-700 font-semibold">
+    <span className="text-gray-700">
       {currency}
       {formattedPrice}
     </span>

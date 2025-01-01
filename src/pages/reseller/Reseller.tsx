@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import ProductGrid from "../../components/common/products/ProductGrid";
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import { useStoreData } from "@/store/storeData";
+import Filters from "@/components/common/filters/Filters";
 
 const Reseller = () => {
   const { storeName } = useParams();
@@ -27,6 +28,7 @@ const Reseller = () => {
       {/* TODO: PRODUCT FILTERS */}
       {/* <div>Reseller Page</div> */}
 
+      {/* <Filters /> */}
       <ProductGrid products={data?.resales} isLoading={isProductsLoading} />
     </StorefrontLayout>
   );

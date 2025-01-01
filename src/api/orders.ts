@@ -49,7 +49,9 @@ export const useGetAllOrders = (orderId: string) => {
   const query = useQuery({
     queryKey: ["getOrders", orderId],
     queryFn: async () => {
-      const response = await api.get(`/v1/orders/checkout/${orderId}`);
+      const response = await api.get(
+        `/v1/orders/checkout/${orderId}?order_type=resale`
+      );
       return response.data.data;
     },
   });

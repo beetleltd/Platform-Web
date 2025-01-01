@@ -1,88 +1,60 @@
 import React from "react";
-import { MdOutlineAddShoppingCart } from "react-icons/md";
-import Button from "../../shared/Button";
 import PriceFormatter from "./PriceFormatter";
 import Ratings from "./Ratings";
 
 interface ProductCardProps {
   product: any;
-  handleAddToCart: () => void;
-  increaseQuantity: (id: string) => void;
-  decreaseQuantity: (id: string) => void;
   handleOpen: () => void;
-  isInCart: boolean;
-  quantity: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  handleOpen,
-  handleAddToCart,
-  decreaseQuantity,
-  increaseQuantity,
-  isInCart,
-  quantity,
-}) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, handleOpen }) => {
   const availableQuantity = product.backing_product?.units;
+  const isOutOfStock = availableQuantity <= 0;
 
   return (
-    <div className="space-y-3 p-2 hover:shadow-gray-100 hover:shadow-md transition-all duration-150 cursor-pointer ease-in-out">
-      <div onClick={handleOpen}>
-        <div className="w-full h-64 overflow-hidden rounded">
-          <img
-            src={
-              product.medias[0]?.url || product.backing_product?.medias[0]?.url
-            }
-            alt={product.backing_product?.name}
-            className="w-full h-full object-cover"
-          />
+    <div
+      onClick={handleOpen}
+      className="bg-white shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden relative cursor-pointer"
+    >
+      {/* Out of Stock Badge */}
+      {isOutOfStock && (
+        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded shadow-md">
+          Out of Stock
         </div>
-        <div className="space-y-1 text-gray-700">
-          <h2 className="text-sm font-semibold mt-2 truncate">
-            {product.backing_product?.name}
-          </h2>
-          <p className="text-primary font-medium text-lg md:text-xl">
-            <PriceFormatter
-              price={product?.marked_price}
-              currency={product?.currency}
-            />
-          </p>
-          {product?.rating <= 0 ? (
-            <div className="py-3"></div>
-          ) : (
-            <Ratings rating={product.rating} />
-          )}
-        </div>
+      )}
+
+      {/* Product Image */}
+      <div className="w-full h-72 overflow-hidden rounded-t">
+        <img
+          src={
+            product.medias[0]?.url || product.backing_product?.medias[0]?.url
+          }
+          alt={product.backing_product?.name || "Product Image"}
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+        />
       </div>
-      {/* {isInCart ? (
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => decreaseQuantity(product.id)}
-            className="px-2 py-1 border border-gray-300 rounded"
-          >
-            -
-          </button>
-          <span>{quantity}</span>
-          <button
-            onClick={() => increaseQuantity(product.id)}
-            className={`px-2 py-1 border border-gray-300 rounded ${
-              quantity >= availableQuantity
-                ? "cursor-not-allowed opacity-50"
-                : ""
-            }`}
-            disabled={quantity >= availableQuantity}
-          >
-            +
-          </button>
-        </div>
-      ) : (
-        <Button
-          onClick={handleAddToCart}
-          className="w-full py-2 bg-primary text-white rounded"
+
+      {/* Product Details */}
+      <div className="p-4 space-y-1 text-gray-800">
+        <h2
+          className="text-xs uppercase font-bold text-gray-700 truncate"
+          title={product.backing_product?.name}
         >
-          Add to Cart
-        </Button>
-      )} */}
+          {product.backing_product?.name}
+        </h2>
+        <p className="text-xl font-normal text-primary">
+          <PriceFormatter
+            price={product?.marked_price}
+            currency={product?.currency}
+          />
+        </p>
+        {product?.rating > 0 && (
+          <div className="flex items-center space-x-3">
+            <Ratings rating={product.rating} />
+            <span className="text-xs text-gray-500">({product.rating})</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

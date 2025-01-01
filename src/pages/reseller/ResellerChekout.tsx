@@ -146,7 +146,6 @@ const ResellerCheckout = () => {
         {
           onSuccess: () => {
             setPaymentSuccess(true);
-            clearCart();
             setForm({
               fullName: "",
               email: "",
@@ -283,7 +282,7 @@ const ResellerCheckout = () => {
             <div className="flex justify-center mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 text-green-500"
+                className="h-20 w-20 text-green-500"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -327,6 +326,7 @@ const ResellerCheckout = () => {
         </Dialog>
         <Dialog
           open={paymentSuccess}
+          modal={true}
           onOpenChange={(isOpen) => !isOpen && setPaymentSuccess(false)}
         >
           <DialogContent className="max-w-lg mx-auto p-6 rounded-lg shadow-lg bg-white">
@@ -353,7 +353,7 @@ const ResellerCheckout = () => {
             <div className="space-y-4">
               <div className="text-sm text-gray-600">
                 <p>
-                  Order ID: <strong>#12345</strong>
+                  Order ID: <strong>{order[0]?.client_id}</strong>
                 </p>
                 <p>
                   {/* Transaction Ref: <strong>{reference?.reference}</strong> */}
@@ -365,9 +365,12 @@ const ResellerCheckout = () => {
               <div className="flex justify-center space-x-4">
                 <Button
                   className="!text-reseller-primary !shadow-none"
-                  onClick={() =>
-                    navigate(`/${store?.username}/orders/${order?.id}`)
-                  }
+                  onClick={() => {
+                    clearCart();
+                    navigate(
+                      `/${store?.username}/orders/${order[0]?.client_id}`
+                    );
+                  }}
                   variant="outline"
                 >
                   View My Orders
