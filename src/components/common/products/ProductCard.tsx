@@ -54,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           )}
         </div>
       </div>
-      {isInCart ? (
+      {/* {isInCart ? (
         <div className="flex items-center justify-between">
           <button
             onClick={() => decreaseQuantity(product.id)}
@@ -82,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         >
           Add to Cart
         </Button>
-      )}
+      )} */}
     </div>
   );
 };

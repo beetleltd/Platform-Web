@@ -11,19 +11,24 @@ const ResellerCheckout = lazy(
   () => import("../pages/reseller/ResellerChekout")
 );
 const NotFound = lazy(() => import("../pages/NotFound"));
+const Orders = lazy(() => import("../pages/reseller/Orders"));
 
 const router = createBrowserRouter([
   {
-    path: "/r/:storeName",
+    path: "/:storeName",
     element: <Reseller />,
   },
   {
-    path: "/r/:storeName/cart",
+    path: "/:storeName/cart",
     element: <ResellerCart />,
   },
   {
-    path: "/r/:storeName/checkout",
+    path: "/:storeName/checkout",
     element: <ResellerCheckout />,
+  },
+  {
+    path: "/:storeName/orders/:orderId",
+    element: <Orders />,
   },
   { path: "*", element: <NotFound /> },
 ]);

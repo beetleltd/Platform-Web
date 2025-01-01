@@ -18,7 +18,7 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>("business");
+  const [theme, setTheme] = useState<Theme>("reseller");
 
   const toggleTheme = (newTheme: Theme) => {
     setTheme(newTheme);

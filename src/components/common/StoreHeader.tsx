@@ -21,13 +21,13 @@ const StoreHeader = ({ theme }: TStoreHeader) => {
     >
       <Container>
         <div className="flex items-center gap-x-5">
-          <Link to={`/r/${store?.username}`} className="cursor-pointer">
+          <Link to={`/${store?.username}`} className="cursor-pointer">
             <StoreProfileMenu />
           </Link>
 
           <SearchInput />
 
-          <Link to={`/r/${store?.username}/cart`} className="cursor-pointer">
+          <Link to={`/${store?.username}/cart`} className="cursor-pointer">
             <CartIcon />
           </Link>
         </div>

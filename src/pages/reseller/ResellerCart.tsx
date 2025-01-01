@@ -115,7 +115,7 @@ const ResellerCart: React.FC = () => {
 
             <Button
               className="w-full"
-              onClick={() => navigate(`/r/${storeName}/checkout`)}
+              onClick={() => navigate(`/${storeName}/checkout`)}
               disabled={products?.length === 0}
             >
               Checkout

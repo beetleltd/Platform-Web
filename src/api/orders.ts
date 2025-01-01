@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useReserveOrderMutation = () => {
   const reserveOrderMutation = useMutation({
@@ -43,4 +43,17 @@ export const useConfirmOrderMutation = () => {
   });
   const { mutate: confirmOrder, isPending: isLoading } = confirmOrderMutation;
   return { confirmOrder, isLoading };
+};
+
+export const useGetAllOrders = (orderId: string) => {
+  const query = useQuery({
+    queryKey: ["getOrders", orderId],
+    queryFn: async () => {
+      const response = await api.get(`/v1/orders/checkout/${orderId}`);
+      return response.data.data;
+    },
+  });
+
+  const { data, isLoading, refetch, error } = query;
+  return { data, isLoading, refetch, error };
 };

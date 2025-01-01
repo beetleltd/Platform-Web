@@ -1,0 +1,1 @@
+import{a,j as r,F as o}from"./index.DRHTUytQ.js";import{b as i}from"./orders.DGHA735Z.js";import"./api.H52zwNy4.js";const u=()=>{const{orderId:s}=a(),{data:e,isLoading:t}=i(s||"");return t?r.jsx(o,{}):r.jsx("div",{children:r.jsx("pre",{children:JSON.stringify(e,null,2)})})};export{u as default};

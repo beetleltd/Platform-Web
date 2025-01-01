@@ -2,6 +2,8 @@ import Button from "@/components/shared/Button";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
 import PriceFormatter from "./PriceFormatter";
 import Ratings from "./Ratings";
+import { IoCartOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 type ProductDetailsProps = {
   handleAddToCart: () => void;
@@ -21,16 +23,17 @@ const ProductDetails = ({
   quantity,
 }: ProductDetailsProps) => {
   const availableQuantity = product.backing_product?.units;
+  const navigate = useNavigate();
 
   return (
     <div className=" block md:flex md:gap-x-5 space-y-5 md:space-y-0">
-      <div className="w-full md:w-[60%]  max-h-fit min-h-fit md:min-h-[500px]">
+      <div className="w-full md:w-[60%] h-[500px] md:h-[700px]">
         <img
           src={
             product.medias[0]?.url || product.backing_product?.medias[0]?.url
           }
           alt={product.backing_product?.name}
-          className="w-full h-full"
+          className="object-cover w-full h-full object-center"
         />
       </div>
       <div className="text-gray-700 space-y-3 w-full md:w-[40%]">
@@ -46,29 +49,39 @@ const ProductDetails = ({
           <p className="text-sm">Quantity</p>
         </div>
 
-        <p>{product?.products[0]?.description}</p>
+        <p>{product?.backing_product?.description}</p>
 
         {isInCart ? (
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-2">
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => {
+                  decreaseQuantity(product.id);
+                }}
+                className="px-4 shadow-lg py-2 bg-reseller-primary text-white rounded"
+              >
+                -
+              </button>
+              <span>{quantity}</span>
+              <button
+                onClick={() => increaseQuantity(product.id)}
+                className={`px-4 shadow-lg py-2 bg-reseller-primary text-white rounded ${
+                  product.quantity >= availableQuantity
+                    ? "cursor-not-allowed opacity-50"
+                    : ""
+                }`}
+                disabled={product?.quantity >= availableQuantity}
+              >
+                +
+              </button>
+            </div>
+
             <button
-              onClick={() => {
-                decreaseQuantity(product.id);
-              }}
-              className="px-4 shadow-lg py-2 bg-reseller-primary text-white rounded"
+              className="flex items-center gap-x-2 justify-center border border-gray-500 py-2 rounded-md font-medium shadow-sm hover:bg-gray-100 transition"
+              onClick={() => navigate(`${window.location.pathname}/cart`)}
             >
-              -
-            </button>
-            <span>{quantity}</span>
-            <button
-              onClick={() => increaseQuantity(product.id)}
-              className={`px-4 shadow-lg py-2 bg-reseller-primary text-white rounded ${
-                product.quantity >= availableQuantity
-                  ? "cursor-not-allowed opacity-50"
-                  : ""
-              }`}
-              disabled={product?.quantity >= availableQuantity}
-            >
-              +
+              Go to cart
+              <IoCartOutline className="text-xl" />
             </button>
           </div>
         ) : (
