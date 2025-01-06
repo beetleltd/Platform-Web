@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import ProductDetails from "./ProductDetails";
 import { Product } from "@/constants/dummy";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useCartStore } from "@/store/cart";
+import { useCartStore } from "@/hooks/useCartSore";
 
 type ProductSingleProps = {
   product: Product;
@@ -50,6 +50,7 @@ const ProductSingle = ({ product }: ProductSingleProps) => {
             decreaseQuantity={decrementQuantity}
             isInCart={isInCart}
             quantity={quantity}
+            close={() => setIsOpen(false)}
           />
         </DrawerContent>
       </Drawer>
@@ -74,6 +75,7 @@ const ProductSingle = ({ product }: ProductSingleProps) => {
           decreaseQuantity={decrementQuantity}
           isInCart={isInCart}
           quantity={quantity}
+          close={() => setIsOpen(false)}
         />
       </DialogContent>
     </Dialog>

@@ -9,11 +9,10 @@ import StoreTag from "./StoreTag";
 
 const StoreProfileMenu = () => {
   const { theme } = useTheme();
-  const businessType = theme ? "Business" : "Reseller";
   const { store } = useStoreData();
   return (
     <div className="relative">
-      <Menu as="div" className="relative inline-block text-left">
+      <Menu as="div" className="relative inline-block text-left !z-20">
         <Menu.Button className="">
           <div className="flex gap-x-3 items-center">
             <div className="relative">
@@ -72,14 +71,12 @@ const StoreProfileMenu = () => {
               <div className="flex items-center justify-between text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <FiPhone className="text-gray-500" />
-                  <span>{store?.phone_number || "No Phone Number"}</span>
+                  <span>{store?.phone_number || "--"}</span>
                 </div>
                 <button
                   className="text-reseller-primary hover:text-reseller-primary-dark transition"
                   onClick={() =>
-                    navigator.clipboard.writeText(
-                      store?.phone_number || "No Phone Number"
-                    )
+                    navigator.clipboard.writeText(store?.phone_number || "--")
                   }
                 >
                   <FiCopy />
@@ -103,7 +100,12 @@ const StoreProfileMenu = () => {
 
             {/* CTA Button */}
 
-            <Button className="!text-sm !gap-x-2">
+            <Button
+              className="!text-sm !gap-x-2"
+              onClick={() => {
+                window.open("https://beetleltd.org/bloom/resellers", "_blank");
+              }}
+            >
               Get your business on Bloom!
               <MdOutlineOpenInNew />
             </Button>

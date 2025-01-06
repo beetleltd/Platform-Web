@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { PaystackButton } from "react-paystack";
 import {
   Dialog,
@@ -8,7 +8,6 @@ import {
   DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog"; // Update this import based on your project structure
-import { useCartStore } from "../../store/cart";
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
@@ -18,9 +17,11 @@ import { useFetchStoreData } from "@/hooks/useFetchStoreData";
 import FullPageLoader from "@/components/loaders/FullPageLoader";
 import Button from "@/components/shared/Button";
 import PriceFormatter from "@/components/common/products/PriceFormatter";
+import { useCartStore } from "@/hooks/useCartSore";
 
 const ResellerCheckout = () => {
   const navigate = useNavigate();
+  const paystackRef = useRef<HTMLDivElement | null>(null);
   const { storeName } = useParams();
   const { cart: products, calculateSubtotal, clearCart } = useCartStore();
   const { store } = useStoreData();
@@ -79,7 +80,9 @@ const ResellerCheckout = () => {
     Object.keys(form).forEach((field) => {
       if (!form[field]) {
         newErrors[field] = `${
-          field.charAt(0).toUpperCase() + field.slice(1)
+          field === "fullName"
+            ? "Full name"
+            : field.charAt(0).toUpperCase() + field.slice(1)
         } is required.`;
       }
     });
@@ -178,22 +181,26 @@ const ResellerCheckout = () => {
     <div className="flex-1 bg-white shadow-md p-6 rounded-lg">
       <h2 className="text-lg font-semibold mb-4">Your Order</h2>
       {products.map((product) => (
-        <div key={product.id} className="flex justify-between items-start py-2">
-          <div className="flex gap-x-3">
+        <div
+          key={product.id}
+          className="flex justify-between items-center py-2"
+        >
+          <div className="flex gap-x-3 items-center">
             <img
               src={
                 product.medias[0]?.url ||
                 product.backing_product?.medias[0]?.url
               }
               alt={product.backing_product?.name}
-              className="w-20 h-10"
+              className="w-20 h-10 object-cover"
             />
             <div>
               <p>{product.backing_product?.name}</p>
-              <p className="text-xs text-gray-500">{product.quantity} items</p>
             </div>
           </div>
-          <p className="text-sm">
+          <p className="text-sm flex gap-x-2 text-gray-700">
+            <p className="text-sm">{product.quantity}</p>
+            <p>X</p>
             <PriceFormatter price={product.marked_price} />
           </p>
         </div>
@@ -221,9 +228,18 @@ const ResellerCheckout = () => {
 
       <div className="mt-6">
         {errors.global && <p className="text-red-500 mb-4">{errors.global}</p>}
-        <Button onClick={handleReserveOrder} disabled={isReserving}>
-          {isReserving ? "Reserving Order..." : "Reserve and Pay"}
-        </Button>
+        {reservationSuccess && (
+          <div className="flex justify-center">
+            <div className="paystack__button">
+              <PaystackButton {...paystackProps} />
+            </div>
+          </div>
+        )}
+        {!reservationSuccess && (
+          <Button onClick={handleReserveOrder} disabled={isReserving}>
+            {isReserving ? "Reserving Order..." : "Reserve and Pay"}
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -248,7 +264,10 @@ const ResellerCheckout = () => {
               className={`block w-full p-2 border ${
                 errors[field] ? "border-red-500" : "border-gray-300"
               } rounded-md`}
-              placeholder={`Enter your ${field}`}
+              placeholder={`Enter your ${
+                field === "fullName" ? "full name" : field.toLowerCase()
+              }`}
+              disabled={isReserving}
             />
             {errors[field] && (
               <p className="text-red-500 text-sm">{errors[field]}</p>
@@ -274,56 +293,6 @@ const ResellerCheckout = () => {
           {renderOrderSummary()}
         </div>
 
-        <Dialog
-          open={reservationSuccess}
-          onOpenChange={(isOpen) => !isOpen && setReservationSuccess(false)}
-        >
-          <DialogContent className="max-w-md mx-auto p-6 rounded-lg shadow-lg bg-white">
-            <div className="flex justify-center mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-20 w-20 text-green-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414 0L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4a1 1 0 000-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <DialogTitle className="text-lg font-bold text-center mb-2">
-              Order Reserved Successfully!
-            </DialogTitle>
-            <DialogDescription className="text-sm text-gray-600 text-center mb-6">
-              Your order has been reserved. Proceed to make payment to complete
-              your purchase.
-            </DialogDescription>
-            <div className="mt-4 flex justify-center">
-              <Button className="w-full max-w-xs flex items-center justify-center gap-2 py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-150 ease-in-out">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5 10a5 5 0 1010 0A5 5 0 005 10zm7-2a1 1 0 10-2 0v1a1 1 0 102 0V8zm0 3a1 1 0 10-2 0 1 1 0 102 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <PaystackButton {...paystackProps} />
-              </Button>
-            </div>
-            <DialogClose asChild>
-              <button className="mt-6 w-full max-w-xs mx-auto block text-center text-blue-500 hover:underline text-sm">
-                Close
-              </button>
-            </DialogClose>
-          </DialogContent>
-        </Dialog>
         <Dialog
           open={paymentSuccess}
           modal={true}
@@ -367,6 +336,7 @@ const ResellerCheckout = () => {
                   className="!text-reseller-primary !shadow-none"
                   onClick={() => {
                     clearCart();
+                    setPaymentSuccess(false);
                     navigate(
                       `/${store?.username}/orders/${order[0]?.client_id}`
                     );

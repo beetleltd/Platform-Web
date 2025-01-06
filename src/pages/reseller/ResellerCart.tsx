@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
-import { useCartStore } from "../../store/cart";
 import Button from "../../components/shared/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import PriceFormatter from "@/components/common/products/PriceFormatter";
+import { useCartStore } from "@/hooks/useCartSore";
 
 const ResellerCart: React.FC = () => {
   const {
@@ -63,19 +63,19 @@ const ResellerCart: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center space-x-2">
+                  <div className="flex items-center justify-center space-x-10">
                     <button
                       onClick={() => {
                         decreaseQuantity(product.id);
                       }}
-                      className="px-2 py-1 border border-gray-300 rounded"
+                      className="px-3 py-1 text-lg font-bold border border-gray-300 rounded"
                     >
                       -
                     </button>
                     <span>{product.quantity}</span>
                     <button
                       onClick={() => increaseQuantity(product.id)}
-                      className={`px-2 py-1 border border-gray-300 rounded ${
+                      className={`px-3 py-1 border border-gray-300 rounded text-lg flex items-center justify-center${
                         product.quantity >= product.backing_product?.units
                           ? "cursor-not-allowed opacity-50"
                           : ""

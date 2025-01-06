@@ -1,53 +1,94 @@
-import React from "react";
-import { FaStar } from "react-icons/fa";
+import { Menu } from "@headlessui/react";
+import { useState } from "react";
+import FilterButton from "./FilterButton";
+import { FaRegStar } from "react-icons/fa";
 
-type RatingFilterProps = {
-  selectedRatings: number[];
-  onChange: (ratings: number[]) => void;
-};
+const RatingFilter = () => {
+  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
 
-const RatingFilter: React.FC<RatingFilterProps> = ({
-  selectedRatings,
-  onChange,
-}) => {
-  const ratings = [5, 4, 3, 2, 1];
-
+  // Toggle selected ratings
   const toggleRating = (rating: number) => {
-    const newRatings = selectedRatings.includes(rating)
-      ? selectedRatings.filter((r) => r !== rating)
-      : [...selectedRatings, rating];
-    onChange(newRatings);
+    setSelectedRatings((prev) =>
+      prev.includes(rating)
+        ? prev.filter((r) => r !== rating)
+        : [...prev, rating]
+    );
   };
 
   return (
-    <div className="relative bg-white shadow-lg rounded-md p-4 w-full max-w-sm">
-      <h4 className="text-lg font-semibold mb-2">Rating</h4>
-      <ul className="space-y-2">
-        {ratings.map((rating) => (
-          <li
-            key={rating}
-            className="flex items-center justify-between cursor-pointer"
-            onClick={() => toggleRating(rating)}
-          >
-            <div className="flex items-center">
-              {Array.from({ length: 5 }, (_, i) => (
-                <FaStar
-                  key={i}
-                  className={`${
-                    i < rating ? "text-yellow-400" : "text-gray-300"
-                  }`}
-                />
-              ))}
-            </div>
-            <input
-              type="checkbox"
-              checked={selectedRatings.includes(rating)}
-              readOnly
-              className="form-checkbox"
-            />
-          </li>
-        ))}
-      </ul>
+    <div className="relative">
+      {/* Rating Filter Button */}
+      <Menu>
+        {({ open }) => (
+          <>
+            <Menu.Button>
+              <FilterButton>
+                <div className="flex gap-x-2 items-center">
+                  <FaRegStar />
+                  <span>Rating</span>
+                </div>
+              </FilterButton>
+            </Menu.Button>
+
+            {/* Rating Filter Popup */}
+            <Menu.Items
+              as="div"
+              className="absolute mt-2 right-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
+            >
+              <div className="p-4">
+                <div className="flex justify-between items-center border-b pb-2">
+                  <span className="font-semibold text-gray-800">Rating</span>
+                  <button
+                    className="text-reseller-primary font-medium hover:underline text-xs"
+                    onClick={() => console.log("Apply filter", selectedRatings)}
+                  >
+                    Apply
+                  </button>
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  {/* Render Ratings */}
+                  {[5, 4, 3, 2, 1].map((rating) => (
+                    <div
+                      key={rating}
+                      className="flex items-center justify-between gap-x-2"
+                    >
+                      {rating}
+                      <div className="flex w-full items-center justify-between">
+                        {/* Stars */}
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, index) => (
+                            <>
+                              <span
+                                key={index}
+                                className={`text-lg ${
+                                  index < rating
+                                    ? "text-yellow-400"
+                                    : "text-gray-300"
+                                }`}
+                              >
+                                &#9733; {/* Star */}
+                              </span>
+                            </>
+                          ))}
+                        </div>
+
+                        {/* Checkbox */}
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 text-blue-500 rounded border-gray-300 focus:ring-blue-400"
+                          checked={selectedRatings.includes(rating)}
+                          onChange={() => toggleRating(rating)}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Menu.Items>
+          </>
+        )}
+      </Menu>
     </div>
   );
 };

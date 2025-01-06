@@ -6,6 +6,7 @@ import ProductGrid from "../../components/common/products/ProductGrid";
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import { useStoreData } from "@/store/storeData";
 import Filters from "@/components/common/filters/Filters";
+import NotFound from "../NotFound";
 
 const Reseller = () => {
   const { storeName } = useParams();
@@ -14,7 +15,7 @@ const Reseller = () => {
   const { data, isLoading: isProductsLoading } = useGetStoreProducts(store?.id);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <NotFound />;
   }
 
   if (isStoreLoading) {
@@ -28,7 +29,7 @@ const Reseller = () => {
       {/* TODO: PRODUCT FILTERS */}
       {/* <div>Reseller Page</div> */}
 
-      {/* <Filters /> */}
+      <Filters />
       <ProductGrid products={data?.resales} isLoading={isProductsLoading} />
     </StorefrontLayout>
   );

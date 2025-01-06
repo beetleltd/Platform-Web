@@ -13,6 +13,7 @@ type ProductDetailsProps = {
   isInCart: boolean;
   product: any;
   quantity: number;
+  close: () => void;
 };
 
 const ProductDetails = ({
@@ -22,6 +23,7 @@ const ProductDetails = ({
   decreaseQuantity,
   isInCart,
   quantity,
+  close,
 }: ProductDetailsProps) => {
   const availableQuantity = product.backing_product?.units;
   const isOutOfStock = availableQuantity <= 0;
@@ -64,54 +66,59 @@ const ProductDetails = ({
         </div>
 
         <p className="text-gray-600">{product.backing_product?.description}</p>
-
-        {!isOutOfStock && (
-          <>
-            <p className="text-sm font-medium">Quantity:</p>
-            {isInCart ? (
-              <div className="flex w-full justify-between items-center space-x-4">
-                <button
-                  onClick={() => decreaseQuantity(product.id)}
-                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-                  aria-label="Decrease quantity"
+        <div className="space-y-12">
+          {!isOutOfStock && (
+            <>
+              <p className="text-sm font-medium">Quantity:</p>
+              {isInCart ? (
+                <div className="flex w-full justify-between items-center space-x-4">
+                  <button
+                    onClick={() => decreaseQuantity(product.id)}
+                    className="px-4 py-2 bg-gray-200 text-gray-800 text-xl font-bold flex items-center justify-center rounded hover:bg-gray-300"
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+                  <span className="text-lg font-semibold">{quantity}</span>
+                  <button
+                    onClick={() => increaseQuantity(product.id)}
+                    className={`px-4 py-2 text-xl font-bold ${
+                      quantity >= availableQuantity
+                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                        : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                    } rounded`}
+                    disabled={quantity >= availableQuantity}
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+              ) : (
+                <Button
+                  onClick={handleAddToCart}
+                  className="w-full bg-primary text-white font-medium py-3 rounded hover:bg-primary-dark transition-all"
                 >
-                  −
-                </button>
-                <span className="text-lg font-semibold">{quantity}</span>
-                <button
-                  onClick={() => increaseQuantity(product.id)}
-                  className={`px-4 py-2 ${
-                    quantity >= availableQuantity
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                  } rounded`}
-                  disabled={quantity >= availableQuantity}
-                  aria-label="Increase quantity"
-                >
-                  +
-                </button>
-              </div>
-            ) : (
-              <Button
-                onClick={handleAddToCart}
-                className="w-full bg-primary text-white font-medium py-3 rounded hover:bg-primary-dark transition-all"
-              >
-                <MdOutlineAddShoppingCart className="inline-block mr-2 text-lg" />
-                Add to Cart
-              </Button>
-            )}
-          </>
-        )}
+                  <MdOutlineAddShoppingCart className="inline-block mr-2 text-lg" />
+                  Add to Cart
+                </Button>
+              )}
+            </>
+          )}
 
-        {isInCart && !isOutOfStock && (
-          <button
-            onClick={() => navigate(`${window.location.pathname}/cart`)}
-            className="mt-4 w-full border flex items-center justify-center text-primary border-primary py-2 rounded-md hover:bg-gray-100 transition"
-          >
-            <IoCartOutline className="text-lg mr-2" />
-            Go to Cart
-          </button>
-        )}
+          {isInCart && !isOutOfStock && (
+            <Button
+              onClick={() => {
+                close();
+                navigate(`${window.location.pathname}/cart`);
+              }}
+              className="inline-flex self-end"
+              // className="mt-4 w-full border flex items-center justify-center text-primary border-primary py-2 rounded-md hover:bg-gray-100 transition"
+            >
+              <IoCartOutline className="text-lg mr-2" />
+              Go to Cart
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

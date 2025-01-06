@@ -1,7 +1,7 @@
 import { HiOutlineShoppingCart } from "react-icons/hi";
 
 import { useTheme } from "../../contexts/ThemeContext";
-import { useCartStore } from "../../store/cart";
+import { useCartStore } from "@/hooks/useCartSore";
 
 const CartIcon = () => {
   const { theme } = useTheme();
@@ -26,7 +26,7 @@ const CartIcon = () => {
             </span>
           )}
         </div>
-        <p className="font-semibold hidden md:block text-gray-700">Cart</p>
+        {/* <p className="font-semibold hidden md:block text-gray-700">Cart</p> */}
       </div>
     </div>
   );

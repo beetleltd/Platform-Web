@@ -1,84 +1,88 @@
-import React, { useState } from "react";
-import { Range, getTrackBackground } from "react-range";
+import { Menu } from "@headlessui/react";
+import { TbCurrencyNaira } from "react-icons/tb";
+import { useState } from "react";
+import FilterButton from "./FilterButton";
 
-type PriceFilterProps = {
-  priceRange: { min: number; max: number };
-  onChange: (range: { min: number; max: number }) => void;
-};
-
-const PriceFilter: React.FC<PriceFilterProps> = ({ priceRange, onChange }) => {
-  const STEP = 1000; // Step size for the slider
-  const MIN = 0; // Minimum price
-  const MAX = 100000; // Maximum price
-
-  const [values, setValues] = useState([priceRange.min, priceRange.max]);
-
-  const handleApply = () => {
-    onChange({ min: values[0], max: values[1] });
-  };
+const PriceFilter = () => {
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   return (
-    <div className="bg-white shadow-lg rounded-md p-4 w-full max-w-sm">
-      <h4 className="text-lg font-semibold mb-4">Price (₦)</h4>
-      <div className="space-y-4">
-        {/* Range Slider */}
-        <Range
-          values={values}
-          step={STEP}
-          min={MIN}
-          max={MAX}
-          onChange={(values) => setValues(values)}
-          renderTrack={({ props, children }) => (
-            <div
-              {...props}
-              className="h-1 w-full rounded-lg"
-              style={{
-                background: getTrackBackground({
-                  values,
-                  colors: ["#ccc", "#1E3A8A", "#ccc"],
-                  min: MIN,
-                  max: MAX,
-                }),
-              }}
+    <div className="relative">
+      {/* Price Filter Button */}
+      <Menu>
+        {({ open }) => (
+          <>
+            <Menu.Button>
+              <FilterButton>
+                <div className="flex gap-x-2 items-center">
+                  <TbCurrencyNaira />
+                  <span>Price</span>
+                </div>
+              </FilterButton>
+            </Menu.Button>
+
+            {/* Price Filter Popup */}
+            <Menu.Items
+              as="div"
+              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
             >
-              {children}
-            </div>
-          )}
-          renderThumb={({ props }) => (
-            <div
-              {...props}
-              className="h-4 w-4 bg-blue-600 rounded-full shadow-md focus:outline-none focus:ring focus:ring-blue-300"
-            />
-          )}
-        />
-        {/* Inputs */}
-        <div className="flex items-center gap-4">
-          <input
-            type="number"
-            value={values[0]}
-            onChange={(e) =>
-              setValues([Math.max(Number(e.target.value), MIN), values[1]])
-            }
-            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary px-2 py-1"
-          />
-          <span className="text-gray-500">-</span>
-          <input
-            type="number"
-            value={values[1]}
-            onChange={(e) =>
-              setValues([values[0], Math.min(Number(e.target.value), MAX)])
-            }
-            className="w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary px-2 py-1"
-          />
-        </div>
-        {/* Apply Button */}
-        <button
-          className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary-dark transition"
-          onClick={handleApply}
-        >
-          Apply
-        </button>
-      </div>
+              <div className="p-4">
+                <div className="flex justify-between items-center">
+                  <span className="font-semibold text-gray-800">Price (₦)</span>
+                  <button
+                    className="text-reseller-primary hover:underline text-xs"
+                    onClick={() => console.log("Apply filter")}
+                  >
+                    Apply
+                  </button>
+                </div>
+
+                {/* Price Slider */}
+                <div className="mt-4">
+                  <input
+                    type="range"
+                    className="w-full accent-reseller-primary"
+                    min="0"
+                    max="100000"
+                    step="1000"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                  />
+                  <input
+                    type="range"
+                    className="w-full accent-reseller-primary mt-2"
+                    min="0"
+                    max="100000"
+                    step="1000"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                  />
+                </div>
+
+                {/* Price Inputs */}
+                <div className="flex items-center mt-4 gap-x-2">
+                  <input
+                    type="number"
+                    className="w-full border border-reseller-primary rounded-md p-2 text-center"
+                    placeholder="Min"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                  />
+                  <span className="text-gray-500">-</span>
+                  <input
+                    type="number"
+                    className="w-full border border-reseller-primary rounded-md p-2 text-center"
+                    placeholder="Max"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                  />
+                </div>
+              </div>
+            </Menu.Items>
+          </>
+        )}
+      </Menu>
     </div>
   );
 };

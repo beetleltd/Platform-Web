@@ -1,10 +1,18 @@
 import { BiX } from "react-icons/bi";
 import Container from "../layout/Container";
+import { useState } from "react";
 type Props = {
   theme: string;
 };
 
 const StoreDiscountBanner = ({ theme }: Props) => {
+  const [showBanner, setShowBanner] = useState(true);
+  const handleClose = () => {
+    setShowBanner(false);
+  };
+  if (!showBanner) {
+    return null;
+  }
   return (
     <div
       className={` py-3 ${
@@ -19,7 +27,9 @@ const StoreDiscountBanner = ({ theme }: Props) => {
             </p>
           </div>
           <div className="flex text-right">
-            <BiX className="text-2xl text-white cursor-pointer" />
+            <button onClick={() => handleClose()}>
+              <BiX className="text-2xl text-white cursor-pointer" />
+            </button>
           </div>
         </div>
       </Container>

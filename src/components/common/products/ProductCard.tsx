@@ -49,9 +49,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleOpen }) => {
           />
         </p>
         {product?.rating > 0 && (
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             <Ratings rating={product.rating} />
-            <span className="text-xs text-gray-500">({product.rating})</span>
+            <span className="text-xs text-gray-700">({product.rating})</span>
           </div>
         )}
       </div>
