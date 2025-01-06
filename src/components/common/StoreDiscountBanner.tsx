@@ -6,7 +6,7 @@ type Props = {
 };
 
 const StoreDiscountBanner = ({ theme }: Props) => {
-  const [showBanner, setShowBanner] = useState(true);
+  const [showBanner, setShowBanner] = useState(false);
   const handleClose = () => {
     setShowBanner(false);
   };

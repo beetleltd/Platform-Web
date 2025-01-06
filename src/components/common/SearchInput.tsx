@@ -6,7 +6,7 @@ const SearchInput = () => {
 
   if (isMobile) {
     return (
-      <div className="flex-1 ">
+      <div className="">
         <IoSearchOutline className="mx-auto text-3xl text-gray-700 mb-2" />
       </div>
     );
@@ -18,7 +18,7 @@ const SearchInput = () => {
         <input
           type="text"
           placeholder="Search..."
-          className="px-5 py-3 border rounded-full w-full outline-none "
+          className="px-5 py-3 border border-gray-100 focus:border-gray-200 rounded-lg w-full outline-none "
         />
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
           <IoSearchOutline className="h-6 w-6 text-gray-600" />

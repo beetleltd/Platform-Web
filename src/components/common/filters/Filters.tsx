@@ -9,12 +9,10 @@ const FilterBar: React.FC = () => {
   const categories = ["Electronics", "Fashion", "Home", "Books", "Toys"];
   return (
     <div className="flex gap-x-4 py-5">
-      <FilterButton>
-        <div className="flex gap-x-2 items-center">
-          <VscSettings />
-          <span>All Filters</span>
-        </div>
-      </FilterButton>
+      <div className="flex gap-x-2 text-gray-600 !text-sm items-center">
+        <VscSettings />
+        <span>All Filters</span>
+      </div>
       <PriceFilter />
       <RatingFilter />
       <CategoryFilter categories={categories} />

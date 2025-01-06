@@ -15,15 +15,15 @@ const NotFound = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          className="w-52 h-52 text-gray-400"
+          className="w-32 h-32 md:w-52 md:h-52 text-gray-400"
           fill="currentColor"
         >
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-5h2v2h-2zm0-10h2v6h-2z" />
         </svg>
-        <h1 className="text-4xl font-bold text-gray-800 mt-6">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-800 mt-6">
           Oops! Page Not Found
         </h1>
-        <p className="text-lg text-gray-600 mt-4">
+        <p className="text-md md:text-lg text-gray-600 mt-4">
           The page you're looking for doesn't exist or has been moved.
         </p>
       </div>

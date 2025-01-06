@@ -245,12 +245,15 @@ const ResellerCheckout = () => {
   );
 
   const renderContactForm = () => (
-    <div className="w-full lg:w-[60%] bg-white border-2 border-gray-100 p-6 rounded-lg">
+    <div className="w-full lg:w-[60%] bg-white shadow-md p-6 rounded-lg">
       <h2 className="text-lg font-semibold mb-4">Contact Information</h2>
       <form className="space-y-4">
         {Object.keys(form).map((field) => (
           <div key={field} className="space-y-2">
-            <label htmlFor={field} className="block text-sm font-medium">
+            <label
+              htmlFor={field}
+              className="block text-sm font-medium text-gray-700"
+            >
               {field === "fullName"
                 ? "Full Name"
                 : field.charAt(0).toUpperCase() + field.slice(1)}
@@ -262,7 +265,7 @@ const ResellerCheckout = () => {
               value={form[field]}
               onChange={handleInputChange}
               className={`block w-full p-2 border ${
-                errors[field] ? "border-red-500" : "border-gray-300"
+                errors[field] ? "border-red-500" : "border-gray-200"
               } rounded-md`}
               placeholder={`Enter your ${
                 field === "fullName" ? "full name" : field.toLowerCase()
@@ -282,7 +285,7 @@ const ResellerCheckout = () => {
     <StorefrontLayout>
       <div className="container mx-auto py-8 px-4">
         <button
-          className="mb-4 text-gray-600 flex items-center gap-2"
+          className="mb-4 text-gray-600 flex items-center gap-2 text-sm md:text-base"
           onClick={() => navigate(-1)}
         >
           <BiArrowBack /> Go Back

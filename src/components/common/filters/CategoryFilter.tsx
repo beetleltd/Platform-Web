@@ -1,6 +1,7 @@
 import { Menu } from "@headlessui/react";
 import FilterButton from "./FilterButton";
 import { CiBag1 } from "react-icons/ci";
+import Button from "@/components/shared/Button";
 
 const CategoryFilter = ({ categories }: { categories: string[] }) => {
   return (
@@ -21,19 +22,19 @@ const CategoryFilter = ({ categories }: { categories: string[] }) => {
             {/* Category Filter Popup */}
             <Menu.Items
               as="div"
-              className="absolute mt-2 right-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
+              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
             >
               <div className="p-4">
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-800">
                     Categories
                   </span>
-                  <button
+                  {/* <button
                     className="text-reseller-primary hover:underline text-xs font-medium"
                     onClick={() => console.log("Apply filter")}
                   >
                     Apply
-                  </button>
+                  </button> */}
                 </div>
 
                 {/* Category List */}
@@ -50,6 +51,9 @@ const CategoryFilter = ({ categories }: { categories: string[] }) => {
                       />
                     </label>
                   ))}
+                </div>
+                <div className="pt-3">
+                  <Button>Apply</Button>
                 </div>
               </div>
             </Menu.Items>

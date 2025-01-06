@@ -1,32 +1,26 @@
-import { useEffect } from "react";
-import StorefrontLayout from "../../components/layout/StoreFrontLayout";
-import Button from "../../components/shared/Button";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import StorefrontLayout from "@/components/layout/StoreFrontLayout";
+import Button from "@/components/shared/Button";
 import PriceFormatter from "@/components/common/products/PriceFormatter";
 import { useCartStore } from "@/hooks/useCartSore";
 
-const ResellerCart: React.FC = () => {
+const ResellerCart = () => {
+  const navigate = useNavigate();
   const {
     cart: products,
     calculateSubtotal: subtotal,
-    incrementQuantity: increaseQuantity,
-    decrementQuantity: decreaseQuantity,
-    removeFromCart: removeProduct,
     clearCart,
+    decrementQuantity: decreaseQuantity,
+    incrementQuantity: increaseQuantity,
+    removeFromCart: removeProduct,
   } = useCartStore();
 
-  const navigate = useNavigate();
   useEffect(() => {
-    const storedCart = localStorage.getItem("cart-storage");
-    if (storedCart) {
-      const { timestamp } = JSON.parse(storedCart);
-      const oneDay = 24 * 60 * 60 * 1000;
-      if (Date.now() - timestamp > oneDay) {
-        localStorage.removeItem("cart-storage");
-        clearCart();
-      }
+    if (products.length === 0) {
+      clearCart();
     }
-  }, [clearCart]);
+  }, [clearCart, products.length]);
 
   const { storeName } = useParams();
 
@@ -34,7 +28,7 @@ const ResellerCart: React.FC = () => {
     <StorefrontLayout>
       <div className="container mx-auto p-4 min-h-dvh">
         <h1 className="text-2xl font-bold mb-4">
-          Cart ({products.length} items)
+          Cart ({products.length} {products.length > 1 ? "items" : "item"})
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {/* Product List */}
@@ -43,7 +37,7 @@ const ResellerCart: React.FC = () => {
               products.map((product) => (
                 <div
                   key={product.id}
-                  className="grid grid-cols-3 items-center border-b border-gray-200 py-4"
+                  className="grid grid-cols-3 items-center border-b border-gray-200 py-4 gap-4"
                 >
                   <div className="flex items-center">
                     <img
@@ -52,18 +46,18 @@ const ResellerCart: React.FC = () => {
                         product.backing_product?.medias[0]?.url
                       }
                       alt={product.backing_product?.name}
-                      className="w-16 h-16 object-cover mr-4"
+                      className="h-16 w-24 object-cover mr-4"
                     />
                     <div>
                       <p className="font-semibold">
                         {product.backing_product?.name}
                       </p>
-                      <p className="text-gray-500">
-                        ₦{product?.marked_price?.toLocaleString()}
+                      <p className="text-gray-500 !text-sm md:text-base">
+                        <PriceFormatter price={product.marked_price} />
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center space-x-10">
+                  <div className="flex items-center justify-center space-x-4 sm:space-x-10">
                     <button
                       onClick={() => {
                         decreaseQuantity(product.id);
@@ -101,11 +95,10 @@ const ResellerCart: React.FC = () => {
           </div>
 
           {/* Summary */}
-          <div className="p-4 bg-gray-100 rounded-lg shadow-md ">
+          <div className="p-4 bg-gray-100 rounded-lg shadow-md">
             <h2 className="text-xl font-bold mb-4">Summary</h2>
             <div className="flex justify-between mb-2">
               <span>Subtotal</span>
-
               <span>
                 <PriceFormatter price={subtotal()} />
               </span>

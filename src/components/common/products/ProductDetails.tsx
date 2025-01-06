@@ -1,10 +1,10 @@
-import React from "react";
 import Button from "@/components/shared/Button";
+import { IoCartOutline } from "react-icons/io5";
 import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import PriceFormatter from "./PriceFormatter";
 import Ratings from "./Ratings";
-import { IoCartOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
 type ProductDetailsProps = {
   handleAddToCart: () => void;
@@ -30,7 +30,7 @@ const ProductDetails = ({
   const navigate = useNavigate();
 
   return (
-    <div className="block md:flex md:gap-x-8 p-4 md:p-6 lg:p-8">
+    <div className="block md:flex md:gap-x-8">
       {/* Product Image Section */}
       <div className="relative w-full md:w-1/2 h-96 md:h-[700px] overflow-hidden rounded-lg">
         {isOutOfStock && (
@@ -48,7 +48,7 @@ const ProductDetails = ({
       </div>
 
       {/* Product Details Section */}
-      <div className="mt-6 md:mt-0 w-full md:w-1/2 space-y-6 text-gray-800">
+      <div className="mt-6 md:mt-0 w-full md:w-1/2 space-y-6 text-gray-800 p-4 md:pt-10 md:px-4">
         <h1 className="text-xl md:text-2xl font-semibold">
           {product.backing_product?.name}
         </h1>
@@ -77,7 +77,7 @@ const ProductDetails = ({
                     className="px-4 py-2 bg-gray-200 text-gray-800 text-xl font-bold flex items-center justify-center rounded hover:bg-gray-300"
                     aria-label="Decrease quantity"
                   >
-                    −
+                    <FiMinus />
                   </button>
                   <span className="text-lg font-semibold">{quantity}</span>
                   <button
@@ -90,7 +90,7 @@ const ProductDetails = ({
                     disabled={quantity >= availableQuantity}
                     aria-label="Increase quantity"
                   >
-                    +
+                    <FiPlus />
                   </button>
                 </div>
               ) : (

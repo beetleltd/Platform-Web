@@ -14,7 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleOpen }) => {
   return (
     <div
       onClick={handleOpen}
-      className="bg-white shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden relative cursor-pointer"
+      className="bg-white border border-gray-100 transition-shadow duration-200 overflow-hidden relative cursor-pointer"
     >
       {/* Out of Stock Badge */}
       {isOutOfStock && (

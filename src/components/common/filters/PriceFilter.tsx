@@ -2,6 +2,7 @@ import { Menu } from "@headlessui/react";
 import { TbCurrencyNaira } from "react-icons/tb";
 import { useState } from "react";
 import FilterButton from "./FilterButton";
+import Button from "@/components/shared/Button";
 
 const PriceFilter = () => {
   const [minPrice, setMinPrice] = useState("");
@@ -30,12 +31,6 @@ const PriceFilter = () => {
               <div className="p-4">
                 <div className="flex justify-between items-center">
                   <span className="font-semibold text-gray-800">Price (₦)</span>
-                  <button
-                    className="text-reseller-primary hover:underline text-xs"
-                    onClick={() => console.log("Apply filter")}
-                  >
-                    Apply
-                  </button>
                 </div>
 
                 {/* Price Slider */}
@@ -77,6 +72,9 @@ const PriceFilter = () => {
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
                   />
+                </div>
+                <div className="pt-3">
+                  <Button>Apply</Button>
                 </div>
               </div>
             </Menu.Items>

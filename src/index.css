@@ -16,6 +16,14 @@ body {
   }
 }
 
+dialog {
+  border: 0 !important;
+}
+
+div[role="dialog"] {
+  border: 0 !important;
+}
+
 .paystack__button {
   display: flex;
   justify-content: center;

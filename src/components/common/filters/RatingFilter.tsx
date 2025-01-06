@@ -2,6 +2,7 @@ import { Menu } from "@headlessui/react";
 import { useState } from "react";
 import FilterButton from "./FilterButton";
 import { FaRegStar } from "react-icons/fa";
+import Button from "@/components/shared/Button";
 
 const RatingFilter = () => {
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
@@ -33,17 +34,17 @@ const RatingFilter = () => {
             {/* Rating Filter Popup */}
             <Menu.Items
               as="div"
-              className="absolute mt-2 right-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
+              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
             >
               <div className="p-4">
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-800">Rating</span>
-                  <button
+                  {/* <button
                     className="text-reseller-primary font-medium hover:underline text-xs"
                     onClick={() => console.log("Apply filter", selectedRatings)}
                   >
                     Apply
-                  </button>
+                  </button> */}
                 </div>
 
                 <div className="mt-4 space-y-2">
@@ -83,6 +84,9 @@ const RatingFilter = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+                <div className="pt-3">
+                  <Button>Apply</Button>
                 </div>
               </div>
             </Menu.Items>

@@ -16,20 +16,23 @@ const StoreHeader = ({ theme }: TStoreHeader) => {
   return (
     <div
       className={`${
-        theme === "business" ? "bg-business-light" : "bg-reseller-light"
-      } py-5 md:py-10`}
+        // theme === "business" ? "bg-business-light" : "bg-reseller-light"
+        "bg-gray-100"
+      } py-5 md:py-10 `}
     >
       <Container>
-        <div className="flex items-center gap-x-5">
+        <div className="flex items-center gap-x-5 justify-between ">
           <Link to={`/${store?.username}`} className="cursor-pointer">
             <StoreProfileMenu />
           </Link>
 
-          <SearchInput />
+          <div className="md:flex-1 flex gap-x-5 items-center">
+            <SearchInput />
 
-          <Link to={`/${store?.username}/cart`} className="cursor-pointer">
-            <CartIcon />
-          </Link>
+            <Link to={`/${store?.username}/cart`} className="cursor-pointer">
+              <CartIcon />
+            </Link>
+          </div>
         </div>
       </Container>
     </div>
