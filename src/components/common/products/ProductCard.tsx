@@ -1,7 +1,7 @@
 import React from "react";
 import PriceFormatter from "./PriceFormatter";
 import Ratings from "./Ratings";
-import Image from "./attachments/image";
+import Image from "./attachments/Image";
 
 interface ProductCardProps {
   product: any;
