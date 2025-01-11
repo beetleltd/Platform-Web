@@ -1,6 +1,7 @@
 import React from "react";
 import PriceFormatter from "./PriceFormatter";
 import Ratings from "./Ratings";
+import Image from "./attachments/image";
 
 interface ProductCardProps {
   product: any;
@@ -8,13 +9,13 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, handleOpen }) => {
-  const availableQuantity = product.backing_product?.units;
+  const availableQuantity = product?.backing_product?.units;
   const isOutOfStock = availableQuantity <= 0;
 
   return (
     <div
       onClick={handleOpen}
-      className="bg-white border border-gray-100 transition-shadow duration-200 overflow-hidden relative cursor-pointer"
+      className="bg-white border border-gray-100 hover:border-reseller-primary/30 transition-border duration-200 overflow-hidden relative cursor-pointer"
     >
       {/* Out of Stock Badge */}
       {isOutOfStock && (
@@ -25,12 +26,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, handleOpen }) => {
 
       {/* Product Image */}
       <div className="w-full h-72 overflow-hidden rounded-t">
-        <img
+        <Image
           src={
             product.medias[0]?.url || product.backing_product?.medias[0]?.url
           }
           alt={product.backing_product?.name || "Product Image"}
-          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          hash={
+            product.medias[0]?.hash || product.backing_product?.medias[0]?.hash
+          }
+          styles="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         />
       </div>
 

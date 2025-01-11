@@ -3,9 +3,11 @@ import { useState } from "react";
 import FilterButton from "./FilterButton";
 import { FaRegStar } from "react-icons/fa";
 import Button from "@/components/shared/Button";
+import { useFilterStore } from "@/store/filters";
 
 const RatingFilter = () => {
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
+  const { setFilters } = useFilterStore();
 
   // Toggle selected ratings
   const toggleRating = (rating: number) => {
@@ -16,11 +18,16 @@ const RatingFilter = () => {
     );
   };
 
+  const handleApplyFilter = () => {
+    setFilters({ ratings: selectedRatings });
+    console.log("Selected Ratings:", selectedRatings);
+  };
+
   return (
     <div className="relative">
       {/* Rating Filter Button */}
       <Menu>
-        {({ open }) => (
+        {({ open, close }) => (
           <>
             <Menu.Button>
               <FilterButton>
@@ -39,12 +46,6 @@ const RatingFilter = () => {
               <div className="p-4">
                 <div className="flex justify-between items-center border-b pb-2">
                   <span className="font-semibold text-gray-800">Rating</span>
-                  {/* <button
-                    className="text-reseller-primary font-medium hover:underline text-xs"
-                    onClick={() => console.log("Apply filter", selectedRatings)}
-                  >
-                    Apply
-                  </button> */}
                 </div>
 
                 <div className="mt-4 space-y-2">
@@ -78,15 +79,22 @@ const RatingFilter = () => {
                         <input
                           type="checkbox"
                           className="w-4 h-4 text-blue-500 rounded border-gray-300 focus:ring-blue-400"
-                          checked={selectedRatings.includes(rating)}
-                          onChange={() => toggleRating(rating)}
+                          checked={selectedRatings.includes(rating.toFixed(1))}
+                          onChange={() => toggleRating(rating.toFixed(1))}
                         />
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="pt-3">
-                  <Button>Apply</Button>
+                  <Button
+                    onClick={() => {
+                      handleApplyFilter();
+                      close();
+                    }}
+                  >
+                    Apply
+                  </Button>
                 </div>
               </div>
             </Menu.Items>

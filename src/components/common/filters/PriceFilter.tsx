@@ -3,16 +3,22 @@ import { TbCurrencyNaira } from "react-icons/tb";
 import { useState } from "react";
 import FilterButton from "./FilterButton";
 import Button from "@/components/shared/Button";
+import { useFilterStore } from "@/store/filters";
 
 const PriceFilter = () => {
+  const { setFilters } = useFilterStore();
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+
+  const handleApplyFilter = () => {
+    setFilters({ minPrice: parseInt(minPrice), maxPrice: parseInt(maxPrice) });
+  };
 
   return (
     <div className="relative">
       {/* Price Filter Button */}
       <Menu>
-        {({ open }) => (
+        {({ open, close }) => (
           <>
             <Menu.Button>
               <FilterButton>
@@ -26,7 +32,7 @@ const PriceFilter = () => {
             {/* Price Filter Popup */}
             <Menu.Items
               as="div"
-              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
+              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-30"
             >
               <div className="p-4">
                 <div className="flex justify-between items-center">
@@ -74,7 +80,14 @@ const PriceFilter = () => {
                   />
                 </div>
                 <div className="pt-3">
-                  <Button>Apply</Button>
+                  <Button
+                    onClick={() => {
+                      handleApplyFilter();
+                      close();
+                    }}
+                  >
+                    Apply
+                  </Button>
                 </div>
               </div>
             </Menu.Items>

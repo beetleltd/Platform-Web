@@ -11,7 +11,11 @@ import {
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
-import { useConfirmOrderMutation, useReserveOrderMutation } from "@/api/orders";
+import {
+  useConfirmOrderMutation,
+  useOrderPaymentMutation,
+  useReserveOrderMutation,
+} from "@/api/orders";
 import { useStoreData } from "@/store/storeData";
 import { useFetchStoreData } from "@/hooks/useFetchStoreData";
 import FullPageLoader from "@/components/loaders/FullPageLoader";
@@ -34,6 +38,7 @@ const ResellerCheckout = () => {
     isLoading: isReserving,
     reservationData,
   } = useReserveOrderMutation();
+  const { orderPayment, isPaymentLoading } = useOrderPaymentMutation();
 
   const [form, setForm] = useState({
     fullName: "",
@@ -113,9 +118,18 @@ const ResellerCheckout = () => {
     try {
       await reserveOrder(orderData, {
         onSuccess: (response) => {
-          setOrder(response?.data?.orders);
-          setOrderToken(response?.data?.token);
-          setReservationSuccess(true);
+          // setOrder(response?.data?.orders);
+          // setOrderToken(response?.data?.token);
+          // setReservationSuccess(true);
+          console.log(response?.data?.payload);
+          if (response?.data?.payload) {
+            orderPayment(response?.data?.payload, {
+              onSuccess: (response) => {
+                console.log(response?.authorization_url);
+                window.open(response?.data?.authorization_url, "_self");
+              },
+            });
+          }
         },
         onError: (err) => {
           setErrors({
@@ -132,50 +146,50 @@ const ResellerCheckout = () => {
     }
   };
 
-  const handlePaymentSuccess = async (reference) => {
-    const confirmOrderData = {
-      event: "order.confirmation",
-      data: {
-        payment_provider: "paystack",
-        payment_provider_transaction_reference_id: reference?.reference || "",
-        payment_status: "success",
-      },
-      meta_data: order,
-    };
+  // const handlePaymentSuccess = async (reference) => {
+  //   const confirmOrderData = {
+  //     event: "order.confirmation",
+  //     data: {
+  //       payment_provider: "paystack",
+  //       payment_provider_transaction_reference_id: reference?.reference || "",
+  //       payment_status: "success",
+  //     },
+  //     meta_data: order,
+  //   };
 
-    try {
-      await confirmOrder(
-        { orderData: confirmOrderData, orderToken },
-        {
-          onSuccess: () => {
-            setPaymentSuccess(true);
-            setForm({
-              fullName: "",
-              email: "",
-              phone: "",
-              address: "",
-            });
-          },
-        }
-      );
-      alert("Payment successful!");
-    } catch (err) {
-      setErrors({
-        global: "Failed to confirm your order. Please contact support.",
-      });
-      console.error("Order confirmation error:", err);
-    }
-  };
+  //   try {
+  //     await confirmOrder(
+  //       { orderData: confirmOrderData, orderToken },
+  //       {
+  //         onSuccess: () => {
+  //           setPaymentSuccess(true);
+  //           setForm({
+  //             fullName: "",
+  //             email: "",
+  //             phone: "",
+  //             address: "",
+  //           });
+  //         },
+  //       }
+  //     );
+  //     alert("Payment successful!");
+  //   } catch (err) {
+  //     setErrors({
+  //       global: "Failed to confirm your order. Please contact support.",
+  //     });
+  //     console.error("Order confirmation error:", err);
+  //   }
+  // };
 
-  const paystackProps = {
-    email: form.email,
-    amount: GRAND_TOTAL * 100, // Convert to kobo
-    currency: CURRENCY,
-    publicKey: PAYSTACK_PUBLIC_KEY,
-    text: "Pay Now",
-    onSuccess: handlePaymentSuccess,
-    onClose: () => console.log("Payment process closed."),
-  };
+  // const paystackProps = {
+  //   email: form.email,
+  //   amount: GRAND_TOTAL * 100, // Convert to kobo
+  //   currency: CURRENCY,
+  //   publicKey: PAYSTACK_PUBLIC_KEY,
+  //   text: "Pay Now",
+  //   onSuccess: handlePaymentSuccess,
+  //   onClose: () => console.log("Payment process closed."),
+  // };
 
   const renderOrderSummary = () => (
     <div className="flex-1 bg-white shadow-md p-6 rounded-lg">
@@ -228,18 +242,19 @@ const ResellerCheckout = () => {
 
       <div className="mt-6">
         {errors.global && <p className="text-red-500 mb-4">{errors.global}</p>}
-        {reservationSuccess && (
+        {/* {reservationSuccess && (
           <div className="flex justify-center">
             <div className="paystack__button">
               <PaystackButton {...paystackProps} />
             </div>
           </div>
-        )}
-        {!reservationSuccess && (
-          <Button onClick={handleReserveOrder} disabled={isReserving}>
-            {isReserving ? "Reserving Order..." : "Reserve and Pay"}
-          </Button>
-        )}
+        )} */}
+        <Button
+          onClick={handleReserveOrder}
+          disabled={isReserving || isPaymentLoading}
+        >
+          Pay Now
+        </Button>
       </div>
     </div>
   );

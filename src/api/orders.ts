@@ -22,6 +22,22 @@ export const useReserveOrderMutation = () => {
   return { reserveOrder, isLoading, reservationData };
 };
 
+export const useOrderPaymentMutation = () => {
+  const orderPaymentMutation = useMutation({
+    mutationFn: async (paymentData: any) => {
+      const response = await api.post("/v1/orders/checkout/pay", paymentData);
+      return response.data.data;
+    },
+    onSuccess: () => {},
+    onError: () => {},
+  });
+
+  const { mutate: orderPayment, isPending: isPaymentLoading } =
+    orderPaymentMutation;
+
+  return { orderPayment, isPaymentLoading };
+};
+
 export const useConfirmOrderMutation = () => {
   const confirmOrderMutation = useMutation({
     mutationFn: async ({
