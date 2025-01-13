@@ -36,10 +36,16 @@ const Orders = () => {
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <h2 className="text-lg font-semibold">
-                    Order ID: {order.id}
+                    Order ID: {order.client_id}
                   </h2>
-                  <p className="inline-flex rounded-sm bg-green-500 p-[.5px] text-xs text-white">
-                    Status: {order.status}
+                  <p
+                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white transition-colors duration-300 ${
+                      order.status === "confirmed"
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-red-500 hover:bg-red-600"
+                    }`}
+                  >
+                    {order.status === "confirmed" ? "Confirmed" : "Failed"}
                   </p>
                 </div>
                 <div>
@@ -73,16 +79,16 @@ const Orders = () => {
                         </p>
                         <p className="text-sm space-x-1 text-gray-500">
                           <span>Price per unit:</span>
-                          <PriceFormatter
-                            price={resale.product.price_per_unit}
-                          />
+                          <PriceFormatter price={resale.resale_marked_price} />
                         </p>
                       </div>
                     </div>
                     <div>
                       <p className="text-md text-gray-500">
                         Total:{" "}
-                        <PriceFormatter price={resale?.resale_marked_price} />
+                        <PriceFormatter
+                          price={resale?.resale_marked_price * resale.quantity}
+                        />
                       </p>
                     </div>
                   </div>
