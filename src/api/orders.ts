@@ -66,7 +66,7 @@ export const useGetAllOrders = (orderId: string) => {
     queryKey: ["getOrders", orderId],
     queryFn: async () => {
       const response = await api.get(
-        `/v1/orders/checkout/${orderId}?order_type=resale`
+        `/v1/orders/checkout/preview/${orderId}?order_type=resale`
       );
       return response.data.data;
     },

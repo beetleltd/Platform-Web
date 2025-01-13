@@ -38,7 +38,9 @@ const ResellerCheckout = () => {
     isLoading: isReserving,
     reservationData,
   } = useReserveOrderMutation();
+  // const { orderId, set };
   const { orderPayment, isPaymentLoading } = useOrderPaymentMutation();
+  const [orderId, setOrderId] = useState("");
 
   const [form, setForm] = useState({
     fullName: "",
@@ -121,14 +123,20 @@ const ResellerCheckout = () => {
           // setOrder(response?.data?.orders);
           // setOrderToken(response?.data?.token);
           // setReservationSuccess(true);
-          console.log(response?.data?.payload);
-          if (response?.data?.payload) {
-            orderPayment(response?.data?.payload, {
-              onSuccess: (response) => {
-                console.log(response?.authorization_url);
-                window.open(response?.data?.authorization_url, "_self");
+          const payload = response?.data?.payload;
+          if (payload) {
+            orderPayment(
+              {
+                ...payload,
+                callback_meta_tag: `${storeName}/orders/${payload?.metadata?.client_id}`,
               },
-            });
+              {
+                onSuccess: (response) => {
+                  console.log(response?.authorization_url);
+                  window.open(response?.data?.authorization_url, "_self");
+                },
+              }
+            );
           }
         },
         onError: (err) => {
