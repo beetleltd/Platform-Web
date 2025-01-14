@@ -16,7 +16,10 @@ const StoreFooter = () => {
     >
       <Container>
         <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 py-2 md:py-0">
-          <a className="order-1 md:order-1  md:pb-0" href="/">
+          <a
+            className="order-1 md:order-1  md:pb-0"
+            href="https://www.beetleltd.org/resellers"
+          >
             <img
               src={BloomLogoWhite}
               alt="Bloom Logo"

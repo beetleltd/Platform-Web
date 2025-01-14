@@ -45,7 +45,7 @@ const PriceFilter = () => {
                     type="range"
                     className="w-full accent-reseller-primary"
                     min="0"
-                    max="100000"
+                    max="10000000"
                     step="1000"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
@@ -54,7 +54,7 @@ const PriceFilter = () => {
                     type="range"
                     className="w-full accent-reseller-primary mt-2"
                     min="0"
-                    max="100000"
+                    max="10000000"
                     step="1000"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}

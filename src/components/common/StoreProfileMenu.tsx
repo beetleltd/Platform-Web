@@ -6,10 +6,13 @@ import { MdOutlineOpenInNew } from "react-icons/md";
 import { useTheme } from "../../contexts/ThemeContext";
 import Button from "../shared/Button";
 import StoreTag from "./StoreTag";
+import { useToast } from "@/hooks/use-toast";
 
 const StoreProfileMenu = () => {
   const { theme } = useTheme();
   const { store } = useStoreData();
+  const { toast } = useToast();
+
   return (
     <div className="relative">
       <Menu as="div" className="relative inline-block text-left !z-20">
@@ -17,10 +20,7 @@ const StoreProfileMenu = () => {
           <div className="flex gap-x-3 items-center">
             <div className="relative">
               <img
-                src={
-                  store?.metadata?.picture?.url ||
-                  "https://via.placeholder.com/50"
-                } // Placeholder for the store logo
+                src={store?.metadata?.picture?.url || "https://placehold.co/50"} // Placeholder for the store logo
                 alt={store?.name}
                 className="w-14 h-14 rounded-full"
               />
@@ -56,7 +56,7 @@ const StoreProfileMenu = () => {
             {/* Store Header */}
             <div className="flex items-center space-x-4">
               <img
-                src="https://via.placeholder.com/50" // Placeholder for the store logo
+                src="https://placehold.co/50" // Placeholder for the store logo
                 alt="Store Logo"
                 className="w-12 h-12 rounded-full"
               />
@@ -75,9 +75,13 @@ const StoreProfileMenu = () => {
                 </div>
                 <button
                   className="text-reseller-primary hover:text-reseller-primary-dark transition"
-                  onClick={() =>
-                    navigator.clipboard.writeText(store?.phone_number || "--")
-                  }
+                  onClick={() => {
+                    if (!store.phone_number) return;
+                    navigator.clipboard.writeText(store?.phone_number || "--");
+                    toast({
+                      title: "Phone number copied to clipboard",
+                    });
+                  }}
                 >
                   <FiCopy />
                 </button>
@@ -89,9 +93,12 @@ const StoreProfileMenu = () => {
                 </div>
                 <button
                   className="text-reseller-primary hover:text-reseller-primary-dark transition"
-                  onClick={() =>
-                    navigator.clipboard.writeText(store?.email || "No Email")
-                  }
+                  onClick={() => {
+                    navigator.clipboard.writeText(store?.email || "No Email");
+                    toast({
+                      title: "Email copied to clipboard",
+                    });
+                  }}
                 >
                   <FiCopy />
                 </button>
@@ -106,7 +113,7 @@ const StoreProfileMenu = () => {
                 window.open("https://beetleltd.org/bloom/resellers", "_blank");
               }}
             >
-              Get your business on Bloom!
+              Become a reseller
               <MdOutlineOpenInNew />
             </Button>
           </div>

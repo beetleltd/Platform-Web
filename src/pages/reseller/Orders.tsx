@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useGetAllOrders } from "@/api/orders";
 import FullPageLoader from "@/components/loaders/FullPageLoader";
 import { useParams, useNavigate } from "react-router-dom";
 import PriceFormatter from "@/components/common/products/PriceFormatter";
 import Container from "@/components/layout/Container";
 import { IoArrowBack } from "react-icons/io5";
+import { useCartStore } from "@/hooks/useCartSore";
 
 const Orders = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const { data: orders, isLoading } = useGetAllOrders(orderId || "");
   const { storeName } = useParams();
   const navigate = useNavigate();
+  const { clearCart } = useCartStore();
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
 
   if (isLoading) {
     return <FullPageLoader />;
