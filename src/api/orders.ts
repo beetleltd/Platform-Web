@@ -1,7 +1,9 @@
+import { useToast } from "@/hooks/use-toast";
 import api from "@/lib/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useReserveOrderMutation = () => {
+  const { toast } = useToast();
   const reserveOrderMutation = useMutation({
     mutationFn: async (orderData: any) => {
       const response = await api.post("/v1/orders/checkout", orderData);
