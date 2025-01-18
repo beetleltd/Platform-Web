@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PriceFormatter from "./PriceFormatter";
 import Ratings from "./Ratings";
 import { FiPlus, FiMinus } from "react-icons/fi";
+import { DrawerClose } from "@/components/ui/drawer";
 
 type ProductDetailsProps = {
   handleAddToCart: () => void;
@@ -106,17 +107,19 @@ const ProductDetails = ({
           )}
 
           {isInCart && !isOutOfStock && (
-            <Button
-              onClick={() => {
-                close();
-                navigate(`${window.location.pathname}/cart`);
-              }}
-              className="inline-flex self-end"
-              // className="mt-4 w-full border flex items-center justify-center text-primary border-primary py-2 rounded-md hover:bg-gray-100 transition"
-            >
-              <IoCartOutline className="text-lg mr-2" />
-              Go to Cart
-            </Button>
+            <DrawerClose className="w-full">
+              <Button
+                onClick={() => {
+                  close();
+                  navigate(`${window.location.pathname}/cart`);
+                }}
+                className="inline-flex self-end"
+                // className="mt-4 w-full border flex items-center justify-center text-primary border-primary py-2 rounded-md hover:bg-gray-100 transition"
+              >
+                <IoCartOutline className="text-lg mr-2" />
+                Go to Cart
+              </Button>
+            </DrawerClose>
           )}
         </div>
       </div>

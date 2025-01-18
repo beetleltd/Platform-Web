@@ -9,12 +9,16 @@ import {
 } from "../ui/dialog";
 import Button from "../shared/Button";
 import { useFilterStore } from "@/store/filters";
+import { useLocation } from "react-router-dom";
 
 const SearchInput = () => {
   const { isMobile } = useResponsive();
   const [searchTerm, setSearchTerm] = useState("");
   const { filters, setFilters } = useFilterStore();
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  const shouldNotShow = pathname.split("/").length > 2;
 
   const handleSearch = () => {
     if (!searchTerm) return;
@@ -26,14 +30,18 @@ const SearchInput = () => {
 
   if (isMobile) {
     return (
-      <div className="flex justify-center items-center">
+      <div
+        className={`${
+          shouldNotShow && "hidden"
+        } flex justify-center items-center`}
+      >
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <button>
-              <IoSearchOutline className="text-3xl text-gray-700" />
+              <IoSearchOutline className="text-3xl text-gray-700 mb-2" />
             </button>
           </DialogTrigger>
-          <DialogContent className="p-6 max-w-md w-full bg-white rounded-lg shadow-lg">
+          <DialogContent className="p-6 max-w-md h-full w-full bg-white rounded-lg shadow-lg">
             <div className="flex flex-col gap-y-2">
               <DialogTitle className="mb-4 text-lg text-gray-700 font-semibold text-center">
                 Search for products here

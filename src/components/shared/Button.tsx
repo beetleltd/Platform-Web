@@ -1,7 +1,9 @@
+import React from "react";
 import { Button as HeadlessButton } from "@headlessui/react";
 import clsx from "clsx";
-import { buttonStyles } from "../../constants/styles";
-import { useTheme } from "../../contexts/ThemeContext";
+import { FaSpinner } from "react-icons/fa";
+import { buttonStyles } from "@/constants/styles";
+import { useTheme } from "@/contexts/ThemeContext";
 
 type TButton = {
   children: React.ReactNode;
@@ -9,6 +11,7 @@ type TButton = {
   variant?: "solid" | "ghost" | "outline";
   disabled?: boolean;
   className?: string;
+  isLoading?: boolean;
   onClick?: () => void;
 };
 
@@ -18,6 +21,7 @@ const Button = ({
   variant,
   disabled,
   className,
+  isLoading,
   onClick,
   ...props
 }: TButton) => {
@@ -26,7 +30,7 @@ const Button = ({
   return (
     <HeadlessButton
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       className={clsx(
         buttonStyles({
           size,
@@ -38,7 +42,7 @@ const Button = ({
       )}
       {...props}
     >
-      {children}
+      {isLoading ? <FaSpinner className="animate-spin py-2" /> : children}
     </HeadlessButton>
   );
 };

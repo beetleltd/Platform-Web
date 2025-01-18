@@ -36,7 +36,7 @@ const StoreProfileMenu = () => {
               </div>
             </div>
 
-            <div className="text-justify">
+            <div className="hidden md:block text-justify">
               <p className="flex items-center gap-x-2">
                 <span className="font-bold text-xl text-black">
                   {store?.name}

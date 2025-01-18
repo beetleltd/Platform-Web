@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useGetAllOrders } from "@/api/orders";
 import FullPageLoader from "@/components/loaders/FullPageLoader";
 import { useParams, useNavigate } from "react-router-dom";
-import PriceFormatter from "@/components/common/products/PriceFormatter";
 import Container from "@/components/layout/Container";
 import { IoArrowBack } from "react-icons/io5";
 import { useCartStore } from "@/hooks/useCartSore";
+import { OrderStatus } from "@/constants/orderStatus";
 
 const Orders = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -17,6 +17,23 @@ const Orders = () => {
   useEffect(() => {
     clearCart();
   }, [clearCart]);
+
+  const getStatusBadgeClass = (status: OrderStatus) => {
+    switch (status) {
+      case OrderStatus.PENDING:
+        return "bg-yellow-100 text-yellow-800";
+      case OrderStatus.CONFIRMED:
+        return "bg-green-100 text-green-800";
+      case OrderStatus.PICKED:
+        return "bg-blue-100 text-blue-800";
+      case OrderStatus.DELIVERED:
+        return "bg-purple-100 text-purple-800";
+      case OrderStatus.FAILED:
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
 
   if (isLoading) {
     return <FullPageLoader />;
@@ -45,13 +62,11 @@ const Orders = () => {
                     Order ID: {order.client_id}
                   </h2>
                   <p
-                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold text-white transition-colors duration-300 ${
-                      order.status === "confirmed"
-                        ? "bg-green-500 hover:bg-green-600"
-                        : "bg-red-500 hover:bg-red-600"
-                    }`}
+                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold transition-colors duration-300 ${getStatusBadgeClass(
+                      order.status
+                    )}`}
                   >
-                    {order.status === "confirmed" ? "Confirmed" : "Failed"}
+                    {order.status}
                   </p>
                 </div>
                 <div>
@@ -80,9 +95,6 @@ const Orders = () => {
                       />
                       <div>
                         <p className="font-semibold">{resale.product.name}</p>
-                        <p className="text-sm text-gray-500">
-                          Quantity: {resale.quantity}
-                        </p>
                         <p className="text-sm space-x-1 text-gray-500">
                           <span>Price per unit:</span>
                           <PriceFormatter price={resale.resale_marked_price} />

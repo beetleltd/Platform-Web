@@ -1,27 +1,17 @@
-import { IoSearchOutline } from "react-icons/io5";
 import Container from "../layout/Container";
 
+import { useStoreData } from "@/store/storeData";
 import { Link } from "react-router-dom";
 import CartIcon from "../icons/CartIcon";
-import StoreProfileMenu from "./StoreProfileMenu";
 import SearchInput from "./SearchInput";
-import { useStoreData } from "@/store/storeData";
+import StoreProfileMenu from "./StoreProfileMenu";
 
-type TStoreHeader = {
-  theme: string;
-};
-
-const StoreHeader = ({ theme }: TStoreHeader) => {
+const StoreHeader = () => {
   const { store } = useStoreData();
   return (
-    <div
-      className={`${
-        // theme === "business" ? "bg-business-light" : "bg-reseller-light"
-        "bg-gray-100"
-      } py-5 md:py-10 `}
-    >
+    <div className={`${"bg-gray-100"} py-5 md:py-10 `}>
       <Container>
-        <div className="flex items-center gap-x-5 justify-between ">
+        <div className="flex items-center gap-x-5 justify-between px-3 md:px-0 ">
           <Link to={`/${store?.username}`} className="cursor-pointer">
             <StoreProfileMenu />
           </Link>
