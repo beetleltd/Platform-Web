@@ -128,7 +128,7 @@ const ResellerCart = () => {
             <div className="w-full border border-dashed my-5"></div>
 
             <Button
-              className="w-full text-sm sm:text-base"
+              className="w-full text-sm sm:text-base py-2"
               onClick={() => navigate(`/${storeName}/checkout`)}
               disabled={products?.length === 0}
             >

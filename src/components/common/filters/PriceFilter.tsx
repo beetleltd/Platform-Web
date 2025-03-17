@@ -15,7 +15,7 @@ const PriceFilter = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative z-50">
       {/* Price Filter Button */}
       <Menu>
         {({ open, close }) => (
@@ -32,7 +32,7 @@ const PriceFilter = () => {
             {/* Price Filter Popup */}
             <Menu.Items
               as="div"
-              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-30"
+              className="absolute mt-2 left-0 w-64 bg-white border border-gray-200 rounded-xl shadow-lg focus:outline-none z-10"
             >
               <div className="p-4">
                 <div className="flex justify-between items-center">

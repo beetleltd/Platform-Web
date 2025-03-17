@@ -10,6 +10,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 import StorefrontLayout from "../../components/layout/StoreFrontLayout";
 import EmptyState from "@/components/common/Empty";
+import { FaSpinner } from "react-icons/fa";
 
 const ResellerCheckout = () => {
   const navigate = useNavigate();
@@ -152,7 +153,7 @@ const ResellerCheckout = () => {
           </div>
           <p className="text-sm flex gap-x-2 text-gray-700">
             {product.quantity} X{" "}
-            <PriceFormatter price={product?.marked_price} />
+            <PriceFormatter price={Number(product?.marked_price)} />
           </p>
         </div>
       ))}
@@ -176,9 +177,14 @@ const ResellerCheckout = () => {
         <Button
           onClick={handleReserveOrder}
           disabled={isReserving || isPaymentLoading}
-          isLoading={isReserving || isPaymentLoading}
+          // isLoading={isReserving || isPaymentLoading}
+          className="py-2"
         >
-          Pay Now
+          {isReserving || isPaymentLoading ? (
+            <FaSpinner className="animate-spin py-2" />
+          ) : (
+            "Pay Now"
+          )}
         </Button>
       </div>
     </div>

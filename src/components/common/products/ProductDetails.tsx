@@ -113,7 +113,7 @@ const ProductDetails = ({
                   close();
                   navigate(`${window.location.pathname}/cart`);
                 }}
-                className="inline-flex self-end"
+                className="inline-flex self-end py-3"
                 // className="mt-4 w-full border flex items-center justify-center text-primary border-primary py-2 rounded-md hover:bg-gray-100 transition"
               >
                 <IoCartOutline className="text-lg mr-2" />

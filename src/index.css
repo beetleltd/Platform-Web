@@ -43,12 +43,13 @@ div[role="dialog"] {
 
 /* Add this to your global CSS file */
 ::-webkit-scrollbar {
-  height: 3px; /* Adjust scrollbar height */
+  height: 1px;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: #cccccc; /* Scrollbar color */
   border-radius: 4px; /* Rounded edges */
+  width: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
